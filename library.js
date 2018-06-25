@@ -25,6 +25,22 @@ Library.prototype.removeBookByTitle = function(title){
   return false
 }
 
+Library.prototype.removeBookByAuthor = function(author){
+  var removeCounter = 0;
+  for (var i = 0; i < this._bookShelf.length; i++) {
+    if(this._bookShelf[i].author === author){
+      console.log("removed " + this._bookShelf[i].title + " from book shelf");
+      this._bookShelf.splice(i,1)
+      removeCounter++;
+    }
+  }
+  if(removeCounter > 0){
+    return true;
+  }else{
+    return false
+  }
+}
+
 
 
 
