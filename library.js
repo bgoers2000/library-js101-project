@@ -31,6 +31,7 @@ Library.prototype.removeBookByAuthor = function(author){
     if(this._bookShelf[i].author === author){
       console.log("removed " + this._bookShelf[i].title + " from book shelf");
       this._bookShelf.splice(i,1)
+      i--;
       removeCounter++;
     }
   }
@@ -39,6 +40,10 @@ Library.prototype.removeBookByAuthor = function(author){
   }else{
     return false
   }
+}
+
+Library.prototype.getRandomBook = function(){
+  return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))]
 }
 
 
