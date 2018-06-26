@@ -97,6 +97,10 @@ Library.prototype.getAuthors = function(){
     return uniqueAuthors;
 }
 
+Library.prototype.getRandomAuthorName = function(){
+  return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))].author
+}
+
 
 document.addEventListener("DOMContentLoaded", function() {
   window.myLibrary = new Library();
