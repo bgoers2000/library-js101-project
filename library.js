@@ -107,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
   myLibrary.addBook(book1);
   myLibrary.addBook(book2);
   myLibrary.addBook(book3);
+  myLibrary.addBooks(bookList);
 });
 
 var bookList = [{
