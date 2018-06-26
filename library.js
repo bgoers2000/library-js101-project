@@ -66,7 +66,24 @@ Library.prototype.getBooksByAuthor = function(authorName){
   return matchedArr;
 }
 
+Library.prototype.addBooks = function(books){
+  var counter;
+  var badCount;
+  for (var i = 0; i < books.length; i++) {
+    badCount = 0;
+    for (var k = 0; k < this._bookShelf.length; k++) {
+      if(this._bookShelf[k].title === books[i].title){
+        console.log("Sorry "+ books[i].title + " is already in the library.")
+        badCount++;
+      }
+    }
 
+    if(badCount === 0){
+      console.log("Adding " + books[i].title + " to the book shelf");
+      this._bookShelf.push(books[i])
+    }
+  }
+}
 
 
 
@@ -77,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
   myLibrary.addBook(book3);
 });
 
-bookList = [{
+var bookList = [{
   title: "Harry Potter",
   author: "JK Rowling",
   numberOfPages: 300,
@@ -94,7 +111,37 @@ bookList = [{
   author:"book writer",
   numberOfPages: 50,
   publishDate: new Date()
+},
+{
+  title:"This is another book title",
+  author:"Frank",
+  numberOfPages:235,
+  publishDate: new Date()
+},
+{
+  title:"World of Books",
+  author:"Atlas",
+  numberOfPages:132,
+  publishDate: new Date()
+},
+{
+  title:"World of Books",
+  author:"Atlas",
+  numberOfPages:132,
+  publishDate: new Date()
+},
+{
+  title:"World of Books",
+  author:"Atlas",
+  numberOfPages:132,
+  publishDate: new Date()
 }]
+
+
+
+
+
+
 var book1 = {
   title: "Harry Potter",
   author: "JK Rowling",
