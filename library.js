@@ -1,5 +1,5 @@
 var Library = function(){
-  this._bookShelf = new Array()
+  this._bookShelf = [];
 };
 
 Library.prototype.addBook = function(book){
@@ -43,7 +43,12 @@ Library.prototype.removeBookByAuthor = function(author){
 }
 
 Library.prototype.getRandomBook = function(){
-  return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))]
+  if(this._bookShelf.length === 0){
+    return null
+  }
+  else{
+    return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))]
+  }
 }
 
 Library.prototype.getBookByTitle = function(title){
@@ -67,7 +72,7 @@ Library.prototype.getBooksByAuthor = function(authorName){
 }
 
 Library.prototype.addBooks = function(books){
-  var counter;
+  var counter = 0;
   var badCount;
   for (var i = 0; i < books.length; i++) {
     badCount = 0;
@@ -77,12 +82,13 @@ Library.prototype.addBooks = function(books){
         badCount++;
       }
     }
-
     if(badCount === 0){
       console.log("Adding " + books[i].title + " to the book shelf");
       this._bookShelf.push(books[i])
+      counter++;
     }
   }
+  return counter
 }
 
 Library.prototype.getAuthors = function(){
@@ -98,7 +104,11 @@ Library.prototype.getAuthors = function(){
 }
 
 Library.prototype.getRandomAuthorName = function(){
-  return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))].author
+  if(this._bookShelf.length === 0){
+    return null
+  }else{
+    return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))].author
+  }
 }
 
 
@@ -108,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function() {
   myLibrary.addBook(book2);
   myLibrary.addBook(book3);
   myLibrary.addBooks(bookList);
+  window.myEmptyLibrary = new Library();
 });
 
 var bookList = [{
