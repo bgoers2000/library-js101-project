@@ -85,6 +85,17 @@ Library.prototype.addBooks = function(books){
   }
 }
 
+Library.prototype.getAuthors = function(){
+  var fullArr = [];
+  var uniqueAuthors = [];
+  for (var i = 0; i < this._bookShelf.length; i++) {
+    fullArr.push(this._bookShelf[i].author)
+  }
+    uniqueAuthors = fullArr.filter(function(value,index,self){
+    return self.indexOf(value) === index;
+    })
+    return uniqueAuthors;
+}
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -134,6 +145,24 @@ var bookList = [{
   title:"World of Books",
   author:"Atlas",
   numberOfPages:132,
+  publishDate: new Date()
+},
+{
+  title: "Harry Potter Two",
+  author: "JK Rowling",
+  numberOfPages: 200,
+  publishDate: new Date()
+},
+{
+  title: "Harry Potter Three",
+  author: "JK Rowling",
+  numberOfPages: 300,
+  publishDate: new Date()
+},
+{
+  title: "Harry Potter Four",
+  author: "JK Rowling",
+  numberOfPages: 400,
   publishDate: new Date()
 }]
 
