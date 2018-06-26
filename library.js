@@ -38,7 +38,7 @@ Library.prototype.removeBookByAuthor = function(author){
   if(removeCounter > 0){
     return true;
   }else{
-    return false
+    return false;
   }
 }
 
@@ -53,8 +53,20 @@ Library.prototype.getBookByTitle = function(title){
       matchedArr.push(this._bookShelf[i])
     }
   }
-  return matchedArr
+  return matchedArr;
 }
+
+Library.prototype.getBooksByAuthor = function(authorName){
+  var matchedArr = [];
+  for (var i = 0; i < this._bookShelf.length; i++) {
+    if(this._bookShelf[i].author.toLowerCase().search(authorName.toLowerCase()) >= 0){
+      matchedArr.push(this._bookShelf[i])
+    }
+  }
+  return matchedArr;
+}
+
+
 
 
 
