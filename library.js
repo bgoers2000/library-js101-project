@@ -46,7 +46,15 @@ Library.prototype.getRandomBook = function(){
   return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))]
 }
 
-
+Library.prototype.getBookByTitle = function(title){
+  var matchedArr = [];
+  for (var i = 0; i < this._bookShelf.length; i++) {
+    if(this._bookShelf[i].title.toLowerCase().search(title.toLowerCase()) >= 0){
+      matchedArr.push(this._bookShelf[i])
+    }
+  }
+  return matchedArr
+}
 
 
 
