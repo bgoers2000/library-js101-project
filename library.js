@@ -4,8 +4,7 @@
     if (instance) { //if a instance of library already exists this will point the newly made library to the Singleton instance
       return instance;
     }
-
-    instance = this; //if a instance of library does not yet exist this will get set to the instance name for the new library
+    instance = this; //if a instance of library does not yet exist this will get and set the instance name for the new library
     this._bookShelf = []; //Holding array for book objects
   }
 })();
@@ -19,13 +18,13 @@ var Book = function(title,author,numberOfPages,publishDate){
   this.title = title
   this.author = author
   this.numberOfPages = numberOfPages
-  this.publishDate = new Date().getFullYear()
+  this.publishDate = new Date(publishDate.toString()).getUTCFullYear()
 }
 
 Library.prototype.addBook = function(book){
   //console.log(book)
   for(var i = 0;i < this._bookShelf.length;i++){
-    if(book.title === this._bookShelf[i].title){
+    if(book === this._bookShelf[i]){
       console.log("Sorry "+ book.title +" already exists.");
       return false;
     }
@@ -97,10 +96,8 @@ Library.prototype.getBooksByAuthor = function(authorName){
 
 Library.prototype.addBooks = function(books){
   var counter = 0;
-  //console.log(books)
   for (var i = 0; i < books.length; i++) {
     if (this.addBook(books[i])) {
-      this.addBook(books[i])
       counter++;
     }
   }
@@ -155,7 +152,7 @@ Library.prototype.getStorage = function(){
   var arr = []
   var parsedObj = JSON.parse(localStorage.getItem("myLibrary"))
   for (var i = 0; i < parsedObj.length; i++) {
-    arr.push(new Book(parsedObj[i].title,parsedObj[i].author,parsedObj[i].numberOfPages,parsedObj[i].publishDate))
+    arr.push(new Book(parsedObj[i].title , parsedObj[i].author , parsedObj[i].numberOfPages , parsedObj[i].publishDate))
   }
   return arr
 }
@@ -169,31 +166,34 @@ Library.prototype.setStorage = function(){
 document.addEventListener("DOMContentLoaded", function() {
     window.myLibrary = new Library()
   if (window.localStorage.length > 0) {
+    //console.time("loadtime localStore library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
     console.log("LIBRARY EXISTS SETTING VALUE");
     window.myLibrary._bookShelf = myLibrary.getStorage();
     //window.myLibrary._bookShelf = JSON.parse(localStorage.getItem("myLibrary"))
+    //console.timeEnd("loadtime localStore library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
 } else {
+    //console.time("loadtime fresh library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
     console.log("LIBRARY DOES NOT EXIST CREATING IT!");
     console.log("ADDING BOOKS!!!");
     myLibrary.addBooks(bookList);
-    //window.myEmptyLibrary = new Library(); //library with empty bookshelf for easy testing
     myLibrary.setStorage();
-    //localStorage.setItem('myLibrary',JSON.stringify(window.myLibrary._bookShelf))
+    //console.timeEnd("loadtime fresh library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
 }
 });
 
 
 
-var book1 = new Book("Harry Potter", "JK Rowling",300,new Date());
-var book2 = new Book("Spot","Jane",20, new Date());
-var book3 = new Book("This is a book title","book writer",50, new Date());
-var book4 = new Book("This is another book title","Frank",235, new Date());
-var book5 = new Book("World of Books","Atlas",132, new Date());
-var book6 = new Book("World of Books","Atlas",132, new Date());
-var book7 = new Book("World of Books","Atlas",132, new Date());
-var book8 = new Book("Harry Potter Two", "JK Rowling", 200, new Date());
-var book9 = new Book("Harry Potter Three", "JK Rowling", 300, new Date());
-var book10 = new Book("Harry Potter Four", "JK Rowling", 400, new Date());
-var book11 = new Book("Harry Potter Five", "JK Rowling", 500, new Date());
-var book12 = new Book("Harry Potter Six", "JK Rowling",600, new Date());
-var bookList = [book1,book2,book3,book4,book5,book6,book7,book8,book9,book10,book11,book12]
+var book1 = new Book("Harry Potter", "JK Rowling",300,2001);
+var book2 = new Book("Spot","Jane",20, 1980);
+var book3 = new Book("This is a book title","book writer",50, 2009);
+var book4 = new Book("This is another book title","Frank",235, 2010);
+var book5 = new Book("World of Books","Atlas",132, 2012);
+var book6 = new Book("World of Books","Atlas",132, 2012);
+var book7 = new Book("World of Books","Atlas",132, 2012);
+var book8 = new Book("Harry Potter Two", "JK Rowling", 200, 2002);
+var book9 = new Book("Harry Potter Three", "JK Rowling", 300, 2003);
+var book10 = new Book("Harry Potter Four", "JK Rowling", 400, 2004);
+var book11 = new Book("Harry Potter Five", "JK Rowling", 500, 2005);
+var book12 = new Book("Harry Potter Six", "JK Rowling",600, 2006);
+var book13 = new Book("year","shouldbe",2000,2000);
+var bookList = [book1,book2,book3,book4,book5,book6,book7,book8,book9,book10,book11,book12,book13]
