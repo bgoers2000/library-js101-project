@@ -1,6 +1,19 @@
-var Library = function(){
-  this._bookShelf = [];
-};
+(function() {//SINGLETON
+  var instance;
+  Library = function() {
+    if (instance) { //if a instance of library already exists this will point the newly made library to the Singleton instance
+      return instance;
+    }
+
+    instance = this; //if a instance of library does not yet exist this will get set to the instance name for the new library
+    this._bookShelf = []; //Holding array for book objects
+  }
+})();
+
+
+// var Library = function(){
+//   this._bookShelf = [];
+// };
 
 var Book = function(title,author,numberOfPages,publishDate){
   this.title = title
