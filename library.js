@@ -2,7 +2,15 @@ var Library = function(){
   this._bookShelf = [];
 };
 
+var Book = function(title,author,numberOfPages,publishDate){
+  this.title = title
+  this.author = author
+  this.numberOfPages = numberOfPages
+  this.publishDate = new Date().getFullYear()
+}
+
 Library.prototype.addBook = function(book){
+  //console.log(book)
   for(var i = 0;i < this._bookShelf.length;i++){
     if(book.title === this._bookShelf[i].title){
       console.log("Sorry "+ book.title +" already exists.");
@@ -76,6 +84,7 @@ Library.prototype.getBooksByAuthor = function(authorName){
 
 Library.prototype.addBooks = function(books){
   var counter = 0;
+  //console.log(books)
   for (var i = 0; i < books.length; i++) {
     if (this.addBook(books[i])) {
       this.addBook(books[i])
@@ -130,7 +139,12 @@ Library.prototype.getRandomAuthorName = function(){
 }
 
 Library.prototype.getStorage = function(){
-  return this._bookShelf = JSON.parse(localStorage.getItem("myLibrary"))
+  var arr = []
+  var parsedObj = JSON.parse(localStorage.getItem("myLibrary"))
+  for (var i = 0; i < parsedObj.length; i++) {
+    arr.push(new Book(parsedObj[i].title,parsedObj[i].author,parsedObj[i].numberOfPages,parsedObj[i].publishDate))
+  }
+  return arr
 }
 
 Library.prototype.setStorage = function(){
@@ -157,100 +171,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-var bookList = [
-{
-  title: "Harry Potter",
-  author: "JK Rowling",
-  numberOfPages: 300,
-  publishDate: new Date()
-},
-{
-  title:"Spot",
-  author:"Jane",
-  numberOfPages: 20,
-  publishDate: new Date()
-},
-{
-  title:"This is a book title",
-  author:"book writer",
-  numberOfPages: 50,
-  publishDate: new Date()
-},
-{
-  title:"This is another book title",
-  author:"Frank",
-  numberOfPages:235,
-  publishDate: new Date()
-},
-{
-  title:"World of Books",
-  author:"Atlas",
-  numberOfPages:132,
-  publishDate: new Date()
-},
-{
-  title:"World of Books",
-  author:"Atlas",
-  numberOfPages:132,
-  publishDate: new Date()
-},
-{
-  title:"World of Books",
-  author:"Atlas",
-  numberOfPages:132,
-  publishDate: new Date()
-},
-{
-  title: "Harry Potter Two",
-  author: "JK Rowling",
-  numberOfPages: 200,
-  publishDate: new Date()
-},
-{
-  title: "Harry Potter Three",
-  author: "JK Rowling",
-  numberOfPages: 300,
-  publishDate: new Date()
-},
-{
-  title: "Harry Potter Four",
-  author: "JK Rowling",
-  numberOfPages: 400,
-  publishDate: new Date()
-},
-{
-  title: "Harry Potter Five",
-  author: "JK Rowling",
-  numberOfPages: 500,
-  publishDate: new Date()
-},
-{
-  title: "Harry Potter Six",
-  author: "JK Rowling",
-  numberOfPages: 600,
-  publishDate: new Date()
-}]
-
-
-
-
-
-
-var book1 = {
-  title: "Harry Potter",
-  author: "JK Rowling",
-  numberOfPages: 300,
-  publishDate: new Date()
-}
-var book2 = {
-  title:"Spot",
-  author:"Jane",
-  numberOfPages: 20,
-  publishDate: new Date()
-}
-var book3 = {
-  title:"This is a book title",
-  author:"book writer",
-  numberOfPages: 50,
-  publishDate: new Date()
-}
+var book1 = new Book("Harry Potter", "JK Rowling",300,new Date());
+var book2 = new Book("Spot","Jane",20, new Date());
+var book3 = new Book("This is a book title","book writer",50, new Date());
+var book4 = new Book("This is another book title","Frank",235, new Date());
+var book5 = new Book("World of Books","Atlas",132, new Date());
+var book6 = new Book("World of Books","Atlas",132, new Date());
+var book7 = new Book("World of Books","Atlas",132, new Date());
+var book8 = new Book("Harry Potter Two", "JK Rowling", 200, new Date());
+var book9 = new Book("Harry Potter Three", "JK Rowling", 300, new Date());
+var book10 = new Book("Harry Potter Four", "JK Rowling", 400, new Date());
+var book11 = new Book("Harry Potter Five", "JK Rowling", 500, new Date());
+var book12 = new Book("Harry Potter Six", "JK Rowling",600, new Date());
+var bookList = [book1,book2,book3,book4,book5,book6,book7,book8,book9,book10,book11,book12]
