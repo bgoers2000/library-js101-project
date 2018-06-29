@@ -24,7 +24,7 @@ var Book = function(title,author,numberOfPages,publishDate){
 Library.prototype.addBook = function(book){
   //console.log(book)
   for(var i = 0;i < this._bookShelf.length;i++){
-    if(book === this._bookShelf[i]){
+    if(book.title === this._bookShelf[i].title){
       console.log("Sorry "+ book.title +" already exists.");
       return false;
     }
@@ -103,24 +103,6 @@ Library.prototype.addBooks = function(books){
   }
   this.setStorage();
   return counter;
-  //--------------------UGLY-----------------------
-  // var counter = 0;
-  // var badCount;
-  // for (var i = 0; i < books.length; i++) {
-  //   badCount = 0;
-  //   for (var k = 0; k < this._bookShelf.length; k++) {
-  //     if(this._bookShelf[k].title === books[i].title){
-  //       console.log("Sorry "+ books[i].title + " is already in the library.")
-  //       badCount++;
-  //     }
-  //   }
-  //   if(badCount === 0){
-  //     console.log("Adding " + books[i].title + " to the book shelf");
-  //     this._bookShelf.push(books[i])
-  //     counter++;
-  //   }
-  // }
-  // return counter
 }
 
 Library.prototype.getAuthors = function(){
@@ -148,6 +130,56 @@ Library.prototype.getRandomAuthorName = function(){
   }
 }
 
+Library.prototype.Search = function(searchParam){
+  //THE DREAM "title=harry potter,author=jk,pages=200,date=2001"
+  var arr = [];
+  var searchResults = []
+  var uniqueSearchResults = []
+  var regEx = /[=,]/g
+  var adjustedSearchParam = "";
+  adjustedSearchParam = searchParam.replace(regEx,"+")
+  arr = adjustedSearchParam.split("+")
+  for (var i = 0; i < arr.length; i++) {
+    if(arr[i].trim() === "title"){
+      searchResults = searchResults.concat(this.getBookByTitle(arr[i+1].trim()))
+    }else if(arr[i].trim() === "author"){
+      searchResults = searchResults.concat(this.getBooksByAuthor(arr[i+1].trim()))
+    }else if(arr[i].trim() === "pages"){
+      searchResults = searchResults.concat(this.getBookByPages(arr[i+1].trim()))
+    }else if(arr[i].trim() === "date"){
+      searchResults = searchResults.concat(this.getBookByDate(arr[i+1].trim()))
+    }
+    i++;
+  }
+  uniqueSearchResults = searchResults.filter(function(value,index,self){
+  return self.indexOf(value) === index;
+  })
+  return uniqueSearchResults
+}
+
+Library.prototype.getBookByDate = function(year){
+  var matchedArr = [];
+  for (var i = 0; i < this._bookShelf.length; i++) {
+    if(this._bookShelf[i].publishDate.toString().search(year.toString()) >= 0){
+      matchedArr.push(this._bookShelf[i])
+    }
+  }
+  return matchedArr;
+}
+
+Library.prototype.getBookByPages = function(pages){
+  var matchedArr = [];
+  pageRange = 100;
+  for (var i = 0; i < this._bookShelf.length; i++) {
+    if(parseInt(this._bookShelf[i].numberOfPages) <= parseInt(pages.trim())+pageRange  && parseInt(this._bookShelf[i].numberOfPages) >= parseInt(pages.trim())-pageRange){
+      matchedArr.push(this._bookShelf[i])
+    }
+  }
+  return matchedArr;
+}
+
+
+
 Library.prototype.getStorage = function(){
   var arr = []
   var parsedObj = JSON.parse(localStorage.getItem("myLibrary"))
@@ -169,7 +201,6 @@ document.addEventListener("DOMContentLoaded", function() {
     //console.time("loadtime localStore library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
     console.log("LIBRARY EXISTS SETTING VALUE");
     window.myLibrary._bookShelf = myLibrary.getStorage();
-    //window.myLibrary._bookShelf = JSON.parse(localStorage.getItem("myLibrary"))
     //console.timeEnd("loadtime localStore library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
 } else {
     //console.time("loadtime fresh library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
