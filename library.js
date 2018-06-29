@@ -169,7 +169,7 @@ Library.prototype.getBookByDate = function(year){
 
 Library.prototype.getBookByPages = function(pages){
   var matchedArr = [];
-  pageRange = 100;
+  var pageRange = 100;
   for (var i = 0; i < this._bookShelf.length; i++) {
     if(parseInt(this._bookShelf[i].numberOfPages) <= parseInt(pages.trim())+pageRange  && parseInt(this._bookShelf[i].numberOfPages) >= parseInt(pages.trim())-pageRange){
       matchedArr.push(this._bookShelf[i])
