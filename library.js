@@ -117,7 +117,7 @@ Library.prototype.getAuthors = function(){
       // console.log(value+"=value");
       // console.log(index+"=index");
       // console.log("COMPARE: " + self.indexOf(value) + " === " + index);
-    return self.indexOf(value) === index;
+    return self.indexOf(value) === index; //if callback is true add author to returned array
     })
     return uniqueAuthors;
 }
