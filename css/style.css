@@ -23,3 +23,18 @@
     width: 100%;
 
 }
+.table.table-striped.book-table.pad-bottom {
+  margin-bottom: 5%;
+}
+
+.tiny-modal-text {
+  font-size: 70%;
+}
+
+.img-thumbnail.book-cover-thumbnail {
+  width: 235px;
+  height: 200px;
+}
+.card.center-card {
+  margin: auto;
+}

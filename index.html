@@ -10,17 +10,17 @@
     <header>
       <nav class="navbar navbar-dark bg-primary" id="myHeader">
           <div class="col-md-3 text-center">
-            <button type="button" class="btn btn-success">Add Book</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addBookModal">Add Book</button>
           </div>
           <div class="col-md-3 text-center">
-            <button type="button" class="btn btn-danger">Remove Book</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeBookModal">Remove Book</button>
           </div>
           <div class="col-md-3 text-center">
             <input type="text" name="Search" value="" placeholder="search stuff!">
-            <button type="button" name="Search">Search</button>
+            <button type="button" class="btn btn-dark">Search</button>
           </div>
           <div class="col-md-3 text-center">
-            <button type="button" name="Login">Login</button>
+            <button type="button" class="btn btn-light" name="Login" data-toggle="modal" data-target="#loginModal">Login</button>
           </div>
       </nav>
     </header>
@@ -30,10 +30,9 @@
     </div>
     <div class="container">
       <div class="row">
-        <table class="table table-striped book-table">
+        <table class="table table-striped book-table pad-bottom">
           <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Title</th>
               <th scope="col">Author</th>
               <th scope="col">Pages</th>
@@ -43,7 +42,6 @@
           </thead>
           <tbody>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -51,7 +49,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">2</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -59,7 +56,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">3</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -67,7 +63,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">4</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -77,7 +72,6 @@
             <!-- DUMMY TABLE FOR LARGER PAGE -->
 
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -85,7 +79,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -93,7 +86,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -101,7 +93,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -109,7 +100,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -117,7 +107,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -125,7 +114,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -133,7 +121,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -141,7 +128,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -149,7 +135,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -157,7 +142,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -165,7 +149,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -173,7 +156,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -181,7 +163,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -189,7 +170,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -197,7 +177,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -205,7 +184,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -213,7 +191,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -221,7 +198,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -229,7 +205,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -237,7 +212,6 @@
               <td>rating</td>
             </tr>
             <tr class="library-rows table-rows">
-              <th scope="row">1</th>
               <td>book</td>
               <td>author</td>
               <td>pages</td>
@@ -253,21 +227,307 @@
     <footer>
       <nav class="navbar navbar-dark bg-primary" id="myFooter">
         <div class="col-md-4 text-center">
-          <button type="button" class="btn btn-secondary">Random Book</button>
-          <button type="button" class="btn btn-secondary">Show All Books</button>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#randomBookModal">Random Book</button>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#showAllBooksModal">Show All Books</button>
         </div>
         <div class="col-md-4 text-center">
           <button type="button" class="btn btn-light">Change Display</button>
         </div>
         <div class="col-md-4 text-center">
-          <button type="button" class="btn btn-secondary">Random Author</button>
-          <button type="button" class="btn btn-secondary">Show All Authors</button>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#randomAuthorModal">Random Author</button>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#showAllAuthorsModal">Show All Authors</button>
         </div>
       </nav>
     </footer>
+<!-- ************************************MODALS******************************* -->
 
+<!-- addBookModal START -->
+<div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addBookModalLabel">Add Book</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-book-title">Title</span>
+                  </div>
+                  <input type="text" placeholder="Book Title" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-book-author">Author</span>
+                  </div>
+                  <input type="text" placeholder="Author's Name" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-">Pages</span>
+                  </div>
+                  <input type="number" placeholder=50 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Have read?</label>
+                  </div>
+                  <select class="custom-select" id="inputGroupSelect01">
+                    <option selected>Choose...</option>
+                    <option value=1>Yes</option>
+                    <option value=0>No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-primary">Queue book to be added</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <img src="css/assets/itsatrap.jpg" class="img-thumbnail book-cover-thumbnail" alt="Responsive image">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-4 text-center">
+            <button type="button" class="btn btn-secondary">Reset</button>
+          </div>
+          <div class="col-md-4 text-center">
+            0 book(s) waiting to be added
+          </div>
+          <div class="col-md-4 text-center">
+            <button type="button" class="btn btn-success">Add to Library</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- addBookModal END -->
+
+<!-- removeBookModal START -->
+<div class="modal fade" id="removeBookModal" tabindex="-1" role="dialog" aria-labelledby="removeBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeBookModalLabel">Remove Book</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Remove by</label>
+              </div>
+              <select class="custom-select" id="inputGroupSelect01">
+                <option selected>Choose...</option>
+                <option value=0>Book Title</option>
+                <option value=1>Author</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">CHANGE TO SELECTION</span>
+              </div>
+              <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-lg btn-block">Remove!</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- removeBookModal END -->
+
+<!-- loginModal START -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Remember Me???(maybe)</label>
+          </div>
+
+      </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+<!-- loginModal END -->
+
+<!-- randomBookModal START -->
+<div class="modal fade" id="randomBookModal" tabindex="-1" role="dialog" aria-labelledby="randomBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="randomBookModalLabel">Random Book!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card center-card" style="width: 18rem;">
+              <img class="card-img-top" src="css/assets/itsatrap.jpg" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Book Title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">stuff</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+              </ul>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- randomBookModal END -->
+
+<!-- showAllBooksModal START -->
+<div class="modal fade" id="showAllBooksModal" tabindex="-1" role="dialog" aria-labelledby="showAllBooksModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showAllBooksModalLabel">All Books</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- showAllBooksModal END -->
+
+<!-- randomAuthorModal START -->
+<div class="modal fade" id="randomAuthorModal" tabindex="-1" role="dialog" aria-labelledby="randomAuthorModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="randomAuthorModalLabel">Random Author!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- randomAuthorModal END -->
+
+<!-- showAllAuthorsModal START -->
+<div class="modal fade" id="showAllAuthorsModal" tabindex="-1" role="dialog" aria-labelledby="showAllAuthorsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showAllAuthorsModalLabel">All Authors</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- showAllAuthorsModal END -->
+
+<!-- ************************************MODALS END******************************* -->
+
+    <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
+    <script src="js/bootstrap.bundle.js" charset="utf-8"></script>
     <script src="js/library.js" charset="utf-8"></script>
-    <script src="js/bootstrap.js" charset="utf-8"></script>
     <script src="js/index.js" charset="utf-8"></script>
   </body>
 </html>
