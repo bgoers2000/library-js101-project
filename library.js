@@ -37,7 +37,7 @@ Library.prototype.addBook = function(book){
 
 Library.prototype.removeBookByTitle = function(title){
   for (var i = 0; i < this._bookShelf.length; i++) {
-    if(this._bookShelf[i].title === title){
+    if(this._bookShelf[i].title.toLowerCase() === title.toLowerCase()){
       console.log("removed " + this._bookShelf[i].title + " from book shelf");
       this._bookShelf.splice(i,1)
       this.setStorage();
@@ -101,7 +101,6 @@ Library.prototype.addBooks = function(books){
       counter++;
     }
   }
-  this.setStorage();
   return counter;
 }
 
@@ -227,4 +226,7 @@ var book10 = new Book("Harry Potter Four", "JK Rowling", 400, 2004);
 var book11 = new Book("Harry Potter Five", "JK Rowling", 500, 2005);
 var book12 = new Book("Harry Potter Six", "JK Rowling",600, 2006);
 var book13 = new Book("year","shouldbe",2000,2000);
+var book14 = new Book("Im a book","Im an author",350,2005);
+var book15 = new Book("Im another book","Im another author",450,2006);
+var book16 = new Book("Im the last book","Im the last author",200,2016)
 var bookList = [book1,book2,book3,book4,book5,book6,book7,book8,book9,book10,book11,book12,book13]
