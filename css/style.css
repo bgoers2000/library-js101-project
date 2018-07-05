@@ -1,8 +1,16 @@
+body{
+    background-image:url('assets/libBackground.jpg');
+    background-attachment:fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 .book-table {
   border: solid .3rem;
+  border-color: #433122;
 }
 .library-rows.table-rows:hover {
-  background-color: yellow;
+  background-color:#665242;
+  color: orange;
 }
 /* Style the header */
 .header {
@@ -14,17 +22,21 @@
 .sticky {
   position: fixed;
   top: 0;
-  width: 100%
+  width: 100%;
+  z-index: 100;
+
 }
+.carousel-image {
+  height: 600px;
+  width:100%;
+}
+
 #myFooter {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
 
-}
-.table.table-striped.book-table.pad-bottom {
-  margin-bottom: 5%;
 }
 
 .tiny-modal-text {
@@ -37,4 +49,46 @@
 }
 .card.center-card {
   margin: auto;
+}
+.marg-top-bot{
+  margin-top:5%;
+  margin-bottom: 10%;
+}
+
+.bg-dark-brown {
+  background-color: #665242;
+}
+
+.bg-dark-beige {
+  background-color: #AE9784;
+}
+
+.bg-light-beige {
+  background-color: #D7BDA7;
+}
+
+.bg-light-brown {
+  background-color: #897461;
+}
+
+.bg-darkest-brown {
+  background-color: #433122;
+}
+.color-white {
+  color:white;
+}
+.btn.bg-light-beige:hover {
+  background-color: #AE9784;
+}
+
+.bg-wood {
+  background-image: url("assets/wood-bg.jpg");
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #D7BDA7;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: #AE9784;
 }
