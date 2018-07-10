@@ -13,7 +13,7 @@
             <button type="button" id="addBookModalBtn" class="btn bg-light-beige">Add Book</button>
           </div>
           <div class="col-md-3 text-center">
-            <button type="button" class="btn bg-light-beige" data-toggle="modal" data-target="#removeBookModal">Remove Book</button>
+            <button type="button" id="removeBookModalBtn" class="btn bg-light-beige">Remove Book</button>
           </div>
           <div class="col-md-3 text-center">
             <input class="rounded" type="text" name="Search" value="" placeholder="search by title">
@@ -384,6 +384,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form id="removeBookByForm">
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
@@ -391,10 +392,9 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect01">Remove by</label>
               </div>
-              <select class="custom-select" id="inputGroupSelect01">
-                <option selected>Choose...</option>
-                <option value=0>Book Title</option>
-                <option value=1>Author</option>
+              <select class="custom-select" id="removeBookSelectorDropDown">
+                <option value="Book Title">Book Title</option>
+                <option value="Author">Author</option>
               </select>
             </div>
           </div>
@@ -403,20 +403,18 @@
           <div class="col-md-12">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">CHANGE TO SELECTION</span>
+                <span class="input-group-text" id="removeBookBySelectionText">Book Title</span>
               </div>
-              <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-              <div class="input-group-append">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              </div>
+              <input id="removeBookByInputField" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger btn-lg btn-block">Remove!</button>
+        <button type="button" id="removeBookBtn" class="btn btn-danger btn-lg btn-block">Remove!</button>
       </div>
     </div>
+  </form>
   </div>
 </div>
 <!-- removeBookModal END -->
@@ -671,5 +669,6 @@
     <script src="js/index.js" charset="utf-8"></script>
     <script src="js/ShowAuthorsUI.js" charset="utf-8"></script>
     <script src="js/AddBooksUI.js" charset="utf-8"></script>
+    <script src="js/RemoveBookUI.js" charset="utf-8"></script>
   </body>
 </html>
