@@ -5,41 +5,52 @@
       return instance;
     }
     instance = this; //if a instance of library does not yet exist this will get and set the instance name for the new library
-    this._bookShelf = []; //Holding array for book objects
   }
 })();
 
 
 // var Library = function(){
-//   this._bookShelf = [];
+//   window.bookShelf = [];
 // };
 
-var Book = function(title,author,numberOfPages,publishDate){
-  this.title = title
-  this.author = author
-  this.numberOfPages = numberOfPages
-  this.publishDate = new Date(publishDate.toString()).getUTCFullYear()
+var Book = function(title,author,numberOfPages,publishDate,haveRead,coverImage){
+  this.title = title;
+  this.author = author;
+  this.numberOfPages = numberOfPages;
+  this.publishDate = new Date(publishDate.toString()).getUTCFullYear();
+  this.haveRead = haveRead || false;
+  this.coverImage = coverImage || "css/assets/itsatrap.jpg";
+}
+
+Library.prototype.checkBook = function(book){
+  for(var i = 0;i < window.bookShelf.length;i++){
+    if(book.title === window.bookShelf[i].title){
+      console.log("Sorry "+ book.title +" already exists.");
+      return false;
+    }
+  }
+  return true;
 }
 
 Library.prototype.addBook = function(book){
   //console.log(book)
-  for(var i = 0;i < this._bookShelf.length;i++){
-    if(book.title === this._bookShelf[i].title){
+  for(var i = 0;i < window.bookShelf.length;i++){
+    if(book.title === window.bookShelf[i].title){
       console.log("Sorry "+ book.title +" already exists.");
       return false;
     }
   }
   console.log("added " + book.title + " to book shelf");
-  this._bookShelf.push(book)
+  window.bookShelf.push(book)
   this.setStorage();
   return true;
 }
 
 Library.prototype.removeBookByTitle = function(title){
-  for (var i = 0; i < this._bookShelf.length; i++) {
-    if(this._bookShelf[i].title.toLowerCase() === title.toLowerCase()){
-      console.log("removed " + this._bookShelf[i].title + " from book shelf");
-      this._bookShelf.splice(i,1)
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    if(window.bookShelf[i].title.toLowerCase() === title.toLowerCase()){
+      console.log("removed " + window.bookShelf[i].title + " from book shelf");
+      window.bookShelf.splice(i,1)
       this.setStorage();
       return true;
     }
@@ -49,10 +60,10 @@ Library.prototype.removeBookByTitle = function(title){
 
 Library.prototype.removeBookByAuthor = function(author){
   var removeCounter = 0;
-  for (var i = 0; i < this._bookShelf.length; i++) {
-    if(this._bookShelf[i].author === author){
-      console.log("removed " + this._bookShelf[i].title + " from book shelf");
-      this._bookShelf.splice(i,1)
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    if(window.bookShelf[i].author === author){
+      console.log("removed " + window.bookShelf[i].title + " from book shelf");
+      window.bookShelf.splice(i,1)
       i--;
       removeCounter++;
     }
@@ -66,19 +77,19 @@ Library.prototype.removeBookByAuthor = function(author){
 }
 
 Library.prototype.getRandomBook = function(){
-  if(this._bookShelf.length === 0){
+  if(window.bookShelf.length === 0){
     return null
   }
   else{
-    return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))]
+    return window.bookShelf[Math.floor(Math.random() * Math.floor(window.bookShelf.length))]
   }
 }
 
 Library.prototype.getBookByTitle = function(title){
   var matchedArr = [];
-  for (var i = 0; i < this._bookShelf.length; i++) {
-    if(this._bookShelf[i].title.toLowerCase().search(title.toLowerCase()) >= 0){
-      matchedArr.push(this._bookShelf[i])
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    if(window.bookShelf[i].title.toLowerCase().search(title.toLowerCase()) >= 0){
+      matchedArr.push(window.bookShelf[i])
     }
   }
   return matchedArr;
@@ -86,9 +97,9 @@ Library.prototype.getBookByTitle = function(title){
 
 Library.prototype.getBooksByAuthor = function(authorName){
   var matchedArr = [];
-  for (var i = 0; i < this._bookShelf.length; i++) {
-    if(this._bookShelf[i].author.toLowerCase().search(authorName.toLowerCase()) >= 0){
-      matchedArr.push(this._bookShelf[i])
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    if(window.bookShelf[i].author.toLowerCase().search(authorName.toLowerCase()) >= 0){
+      matchedArr.push(window.bookShelf[i])
     }
   }
   return matchedArr;
@@ -107,8 +118,8 @@ Library.prototype.addBooks = function(books){
 Library.prototype.getAuthors = function(){
   var fullArr = [];
   var uniqueAuthors = [];
-  for (var i = 0; i < this._bookShelf.length; i++) {
-    fullArr.push(this._bookShelf[i].author)
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    fullArr.push(window.bookShelf[i].author)
   }
     uniqueAuthors = fullArr.filter(function(value,index,self){
       // TO UNDERSTAND HOW THIS WORKS
@@ -122,10 +133,10 @@ Library.prototype.getAuthors = function(){
 }
 
 Library.prototype.getRandomAuthorName = function(){
-  if(this._bookShelf.length === 0){
+  if(window.bookShelf.length === 0){
     return null
   }else{
-    return this._bookShelf[Math.floor(Math.random() * Math.floor(this._bookShelf.length))].author
+    return window.bookShelf[Math.floor(Math.random() * Math.floor(window.bookShelf.length))].author
   }
 }
 
@@ -158,9 +169,9 @@ Library.prototype.Search = function(searchParam){
 
 Library.prototype.getBookByDate = function(year){
   var matchedArr = [];
-  for (var i = 0; i < this._bookShelf.length; i++) {
-    if(this._bookShelf[i].publishDate.toString().search(year.toString()) >= 0){
-      matchedArr.push(this._bookShelf[i])
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    if(window.bookShelf[i].publishDate.toString().search(year.toString()) >= 0){
+      matchedArr.push(window.bookShelf[i])
     }
   }
   return matchedArr;
@@ -169,9 +180,9 @@ Library.prototype.getBookByDate = function(year){
 Library.prototype.getBookByPages = function(pages){
   var matchedArr = [];
   var pageRange = 100;
-  for (var i = 0; i < this._bookShelf.length; i++) {
-    if(parseInt(this._bookShelf[i].numberOfPages) <= parseInt(pages.trim())+pageRange  && parseInt(this._bookShelf[i].numberOfPages) >= parseInt(pages.trim())-pageRange){
-      matchedArr.push(this._bookShelf[i])
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    if(parseInt(window.bookShelf[i].numberOfPages) <= parseInt(pages.trim())+pageRange  && parseInt(window.bookShelf[i].numberOfPages) >= parseInt(pages.trim())-pageRange){
+      matchedArr.push(window.bookShelf[i])
     }
   }
   return matchedArr;
@@ -183,33 +194,33 @@ Library.prototype.getStorage = function(){
   var arr = []
   var parsedObj = JSON.parse(localStorage.getItem("myLibrary"))
   for (var i = 0; i < parsedObj.length; i++) {
-    arr.push(new Book(parsedObj[i].title , parsedObj[i].author , parsedObj[i].numberOfPages , parsedObj[i].publishDate))
+    arr.push(new Book(parsedObj[i].title , parsedObj[i].author , parsedObj[i].numberOfPages , parsedObj[i].publishDate, parsedObj[i].haveRead,parsedObj[i].coverImage))
   }
   return arr
 }
 
 Library.prototype.setStorage = function(){
-  localStorage.setItem('myLibrary',JSON.stringify(this._bookShelf))
+  localStorage.setItem('myLibrary',JSON.stringify(window.bookShelf))
   return console.log("STORAGE HAS BEEN SET")
 }
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    window.myLibrary = new Library()
-  if (window.localStorage.length > 0) {
-    //console.time("loadtime localStore library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
-    console.log("LIBRARY EXISTS SETTING VALUE");
-    window.myLibrary._bookShelf = myLibrary.getStorage();
-    //console.timeEnd("loadtime localStore library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
-} else {
-    //console.time("loadtime fresh library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
-    console.log("LIBRARY DOES NOT EXIST CREATING IT!");
-    console.log("ADDING BOOKS!!!");
-    myLibrary.addBooks(bookList);
-    myLibrary.setStorage();
-    //console.timeEnd("loadtime fresh library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
-}
-});
+// document.addEventListener("DOMContentLoaded", function() {
+//     window.myLibrary = new Library()
+//   if (window.localStorage.length > 0) {
+//     //console.time("loadtime localStore library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
+//     console.log("LIBRARY EXISTS SETTING VALUE");
+//     window.myLibrary._bookShelf = myLibrary.getStorage();
+//     //console.timeEnd("loadtime localStore library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
+// } else {
+//     //console.time("loadtime fresh library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
+//     console.log("LIBRARY DOES NOT EXIST CREATING IT!");
+//     console.log("ADDING BOOKS!!!");
+//     myLibrary.addBooks(bookList);
+//     myLibrary.setStorage();
+//     //console.timeEnd("loadtime fresh library") //playing with timers to see runtime differences of loading localStorage vs recreating bookshelf
+// }
+// });
 
 
 

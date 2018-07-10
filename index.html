@@ -10,7 +10,7 @@
     <header>
       <nav class="navbar navbar-dark bg-wood" id="myHeader"> <!-- TOP NAV BAR -->
           <div class="col-md-3 text-center">
-            <button type="button" class="btn bg-light-beige" data-toggle="modal" data-target="#addBookModal">Add Book</button>
+            <button type="button" id="addBookModalBtn" class="btn bg-light-beige">Add Book</button>
           </div>
           <div class="col-md-3 text-center">
             <button type="button" class="btn bg-light-beige" data-toggle="modal" data-target="#removeBookModal">Remove Book</button>
@@ -260,7 +260,7 @@
         </div>
         <div class="col-md-4 text-center">
           <button type="button" class="btn bg-light-beige bg-random" data-toggle="modal" data-target="#randomAuthorModal">Random Author</button>
-          <button type="button" class="btn bg-light-beige" data-toggle="modal" data-target="#showAllAuthorsModal">Show All Authors</button>
+          <button type="button" id="showAllAuthorsBtn" class="btn bg-light-beige">Show All Authors</button>
         </div>
       </nav>
     </footer>
@@ -277,6 +277,7 @@
         </button>
       </div>
       <div class="modal-body">
+        <form class="needs-validation" novalidate id="addBookForm"> <!-- FORM START -->
         <div class="row">
           <div class="col-md-7">
             <div class="row">
@@ -285,7 +286,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-book-title">Title</span>
                   </div>
-                  <input type="text" placeholder="Book Title" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <input required id="addBookTitleField" type="text" placeholder="Book Title" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
@@ -295,7 +296,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-book-author">Author</span>
                   </div>
-                  <input type="text" placeholder="Author's Name" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <input required id="addBookAuthorField" type="text" placeholder="Author's Name" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
@@ -305,7 +306,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-">Pages</span>
                   </div>
-                  <input type="number" placeholder=50 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <input required id="addBookPagesField" type="number" placeholder=50 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
@@ -315,10 +316,10 @@
                   <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Have read?</label>
                   </div>
-                  <select class="custom-select" id="inputGroupSelect01">
+                  <select required class="custom-select" id="addBookHaveReadField">
                     <option selected>Choose...</option>
-                    <option value=1>Yes</option>
-                    <option value=0>No</option>
+                    <option value=true>Yes</option>
+                    <option value=false>No</option>
                   </select>
                 </div>
               </div>
@@ -329,13 +330,13 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Publish Date</span>
                   </div>
-                  <input type="date" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                  <input required id="addBookDateField" type="date" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-primary">Queue book to be added</button>
+                <button id="queueBookToBeAddedBtn" type="button" class="btn btn-primary">Queue book to be added</button>
               </div>
             </div>
           </div>
@@ -344,7 +345,7 @@
               <div class="col-md-12">
                 <div class="input-group mb-3">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01">
+                    <input type="file" class="custom-file-input" id="addBookCoverField">
                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                   </div>
                 </div>
@@ -358,13 +359,14 @@
       </div>
       <div class="modal-footer">
           <div class="col-md-4 text-center">
-            <button type="button" class="btn btn-secondary">Reset</button>
+            <button id="addBooksResetFormBtn" type="button" class="btn btn-secondary">Reset</button>
           </div>
           <div class="col-md-4 text-center">
-            0 book(s) waiting to be added
+            <span class="books-to-add">0</span> book(s) waiting to be added
           </div>
+        </form> <!-- FORM END -->
           <div class="col-md-4 text-center">
-            <button type="button" class="btn btn-success">Add to Library</button>
+            <button type="button" id="addBooksAddBooksToLibBtn" class="btn btn-success">Add to Library</button>
           </div>
       </div>
     </div>
@@ -573,7 +575,7 @@
       </div>
       <div class="modal-body text-center">
         <div class="card center-card" style="width: 18rem;">
-          <img class="card-img-top" src=".../100px180/" alt="picture of author">
+          <img class="card-img-top" src="css/assets/itsatrap.jpg" alt="picture of author">
           <div class="card-body">
             <h5 class="card-title">Author Name</h5>
             <p class="card-text">Date of birth</p>
@@ -621,7 +623,7 @@
 <!-- showAllAuthorsModal END -->
 
 <!-- selectedBookModal START -->
-<div class="modal fade" id="selectedBookModal" tabindex="-1" role="dialog" aria-labelledby="selectedBookModalLabel" aria-hidden="true">
+<div class="modal fade" id="selectedBookModal" tabindex="-1"  onloadedmetadata=""role="dialog" aria-labelledby="selectedBookModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -664,7 +666,10 @@
 
     <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
     <script src="js/bootstrap.bundle.js" charset="utf-8"></script>
+    <script src="js/Util.js" charset="utf-8"></script>
     <script src="js/library.js" charset="utf-8"></script>
     <script src="js/index.js" charset="utf-8"></script>
+    <script src="js/ShowAuthorsUI.js" charset="utf-8"></script>
+    <script src="js/AddBooksUI.js" charset="utf-8"></script>
   </body>
 </html>
