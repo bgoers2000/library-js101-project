@@ -115,6 +115,14 @@ Library.prototype.addBooks = function(books){
   return counter;
 }
 
+Library.prototype.getBooks = function(){
+  var fullArr = [];
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    fullArr.push(window.bookShelf[i].title)
+  }
+  return fullArr
+}
+
 Library.prototype.getAuthors = function(){
   var fullArr = [];
   var uniqueAuthors = [];
