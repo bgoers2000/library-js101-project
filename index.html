@@ -252,7 +252,7 @@
     <footer>
       <nav class="navbar navbar-dark bg-wood" id="myFooter"> <!-- BOTTOM NAV BAR -->
         <div class="col-md-4 text-center">
-          <button type="button" class="btn bg-light-beige bg-random" data-toggle="modal" data-target="#randomBookModal">Random Book</button>
+          <button type="button" id="showRandomBookBtn" class="btn bg-light-beige bg-random">Random Book</button>
           <button type="button" id="showAllBooksBtn" class="btn bg-light-beige">Show All Books</button>
         </div>
         <div class="col-md-4 text-center">
@@ -468,19 +468,19 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <div class="card center-card" style="width: 18rem;">
-              <img class="card-img-top" src="css/assets/itsatrap.jpg" alt="Card image cap">
+              <img id="randomBookCoverImage" class="card-img-top" src="css/assets/itsatrap.jpg" alt="Card image cap">
               <div class="card-body">
-                <h5 class="card-title">Book Title</h5>
-                <p class="card-text">Author</p>
+                <h5 id="randomBookTitle" class="card-title">Book Title</h5>
+                <p id="randomBookAuthor" class="card-text">Author</p>
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item">pubDate</li>
-                <li class="list-group-item">pages</li>
-                <li class="list-group-item">Have Read?</li>
+                <li id="randomBookPubDate" class="list-group-item">pubDate</li>
+                <li id="randomBookPages" class="list-group-item">pages</li>
+                <li id="randomBookHaveRead" class="list-group-item">Have Read?</li>
               </ul>
               <div class="card-body">
-                <a href="https://www.google.com/search?q=" class="card-link">Google</a>
-                <a href="https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=" class="card-link">Amazon</a>
+                <a id="randomBookGoogleLink" class="card-link">Google</a>
+                <a id="randomBookAmazonLink" class="card-link">Amazon</a>
               </div>
             </div>
           </div>
@@ -671,5 +671,6 @@
     <script src="js/AddBooksUI.js" charset="utf-8"></script>
     <script src="js/RemoveBookUI.js" charset="utf-8"></script>
     <script src="js/ShowBooksUI.js" charset="utf-8"></script>
+    <script src="js/ShowRandomBookUI.js" charset="utf-8"></script>
   </body>
 </html>
