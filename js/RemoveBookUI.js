@@ -6,15 +6,15 @@ var RemoveBookUI = function(container){
 RemoveBookUI.prototype = Object.create(Library.prototype);
 
 RemoveBookUI.prototype.init = function(){
-  window.bookShelf = this.getStorage();
+  //window.bookShelf = this.getStorage();
   this._bindEvents();
   return;
 };
 
 RemoveBookUI.prototype._bindEvents = function(){
   $('#removeBookModalBtn').on('click',$.proxy(this._handleModalOpen,this))
-  $('#removeBookSelectorDropDown').on('change',$.proxy(this._handleRemoveSelector,this))
-  $('#removeBookBtn').on('click',$.proxy(this._removeBook,this))
+  this.$container.find('#removeBookSelectorDropDown').on('change',$.proxy(this._handleRemoveSelector,this))
+  this.$container.find('#removeBookBtn').on('click',$.proxy(this._removeBook,this))
 };
 
 RemoveBookUI.prototype._handleModalOpen = function(){
@@ -22,13 +22,13 @@ RemoveBookUI.prototype._handleModalOpen = function(){
 };
 
 RemoveBookUI.prototype._handleRemoveSelector = function(){
-  var choice = $("#removeBookSelectorDropDown").val()
+  var choice = this.$container.find("#removeBookSelectorDropDown").val()
   console.log(choice);
   if(choice === "Book Title"){
-    $("#removeBookBySelectionText").text("Book Title")
+    this.$container.find("#removeBookBySelectionText").text("Book Title")
 
   }else if(choice === "Author"){
-    $("#removeBookBySelectionText").text("Author")
+    this.$container.find("#removeBookBySelectionText").text("Author")
   }
 
 };
@@ -36,11 +36,11 @@ RemoveBookUI.prototype._handleRemoveSelector = function(){
 RemoveBookUI.prototype._removeBook = function(){
   var choice = $("#removeBookSelectorDropDown").val()
   if(choice === "Book Title"){
-    this.removeBookByTitle($("#removeBookByInputField").val())
-    $("#removeBookByForm")[0].reset()
+    this.removeBookByTitle(this.$container.find("#removeBookByInputField").val())
+    this.$container.find("#removeBookByForm")[0].reset()
   }else if(choice === "Author"){
-    this.removeBookByAuthor($("#removeBookByInputField").val())
-    $("#removeBookByForm")[0].reset()
+    this.removeBookByAuthor(this.$container.find("#removeBookByInputField").val())
+    this.$container.find("#removeBookByForm")[0].reset()
   }
 };
 

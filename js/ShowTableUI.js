@@ -5,24 +5,32 @@ var ShowTableUI = function(){
 ShowTableUI.prototype = Object.create(Library.prototype);
 
 ShowTableUI.prototype.init = function(){
-  window.bookShelf = this.getStorage();
+  //window.bookShelf = this.getStorage();
+  this._makeBookTable(window.bookShelf);
   this._bindEvents();
+  this._bindCustomListeners();
+
 }
 
 ShowTableUI.prototype._bindEvents = function(){
-  $("#showTableBtn").on('click',$.proxy(this._makeBookTable,this,books = window.bookShelf))
+  $("#showTableBtn").on('click',$.proxy(this._makeBookTable,this,window.bookShelf))
 }
 
+ShowTableUI.prototype._bindCustomListeners = function () {
+  $(document).on('objUpdate', $.proxy(this._makeBookTable, this,window.bookShelf));
+};
+
+
 ShowTableUI.prototype._makeBookTable = function(books){
-  var table = document.createElement("table")
+  var table = document.createElement("table") //MADE TABLE TAG
   $(table).addClass("table table-striped book-table")
   var thead = document.createElement("thead")
   $(thead).addClass("bg-darkest-brown color-white")
   var tr = document.createElement("tr")
   $(table).append(thead)
   $(thead).append(tr)
-  if(window.bookShelf[0]){
-    for (var key in window.bookShelf[0]) {
+  if(books[0]){
+    for (var key in books[0]) {
       var th = document.createElement("th")
       $(th).text(key)
       tr.append(th)
@@ -38,7 +46,8 @@ ShowTableUI.prototype._makeBookTable = function(books){
     tbody.append(tr)
     for (var key in book) {
       var td = document.createElement("td")
-        $(td).text(book[key].toString())
+        $(td).text(book[key])
+        $(td).attr("id",book[key])
         tr.append(td)
     }
   }

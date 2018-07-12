@@ -6,7 +6,7 @@ var ShowRandomAuthorUI = function(container){
 ShowRandomAuthorUI.prototype = Object.create(Library.prototype);
 
 ShowRandomAuthorUI.prototype.init = function(){
-  window.bookShelf = this.getStorage();
+  //window.bookShelf = this.getStorage();
   this._bindEvents();
 }
 
@@ -22,8 +22,8 @@ ShowRandomAuthorUI.prototype._handleShowRandomAuthor = function(){
     alert("There are no books in the bookshelf!")
   }else{
     //TODO INSERT COVER IMAGE PART HERE
-    $("#randomAuthorName").text(author)
-    $("#booksByRandomAuthorName").text("Your books written by " + author)
+    this.$container.find("#randomAuthorName").text(author)
+    this.$container.find("#booksByRandomAuthorName").text("Your books written by " + author)
     this.$container.find('#listOfAuthorsBooks').html(this._createUlOfBooks(authorsBooks))
     this.$container.modal('show');
   }

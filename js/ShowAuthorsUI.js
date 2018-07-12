@@ -6,7 +6,9 @@ var ShowAuthorsUI = function(container){
 ShowAuthorsUI.prototype = Object.create(Library.prototype);
 
 ShowAuthorsUI.prototype.init = function(){
-  window.bookShelf = this.getStorage();
+  if(window.localStorage.length){
+    window.bookShelf = this.getStorage();
+  }
   this._bindEvents();
   return;
 };
@@ -17,12 +19,13 @@ ShowAuthorsUI.prototype._bindEvents = function(){
 };
 
 ShowAuthorsUI.prototype._handleShowAllAuthors = function(){
-  var authors = this.getAuthors()
-  if(authors.length){
-    this.$container.modal('show');
-    this.$container.find('.modal-body').html(this._createUlOfAuthors(authors))
+  if(window.bookShelf){
+    authors = this.getAuthors()
+    console.log(authors);
+      this.$container.modal('show');
+      this.$container.find('.modal-body').html(this._createUlOfAuthors(authors))
   }else{
-    alert('nothing in library')
+    alert("Sorry no books in the bookshelf")
   }
 };
 

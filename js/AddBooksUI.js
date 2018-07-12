@@ -13,9 +13,9 @@ AddBooksUI.prototype.init = function(){
 
 AddBooksUI.prototype._bindEvents = function(){
   $('#addBookModalBtn').on('click',$.proxy(this._handleModalOpen,this))
-  $('#queueBookToBeAddedBtn').on('click',$.proxy(this._validateAddBook,this))
-  $("#addBooksResetFormBtn").on('click',$.proxy(this._resetForm,this))
-  $("#addBooksAddBooksToLibBtn").on('click',$.proxy(this._addBooksToLib,this))
+  this.$container.find('#queueBookToBeAddedBtn').on('click',$.proxy(this._validateAddBook,this))
+  this.$container.find("#addBooksResetFormBtn").on('click',$.proxy(this._resetForm,this))
+  this.$container.find("#addBooksAddBooksToLibBtn").on('click',$.proxy(this._addBooksToLib,this))
 };
 
 AddBooksUI.prototype._validateAddBook = function(){
@@ -26,22 +26,43 @@ AddBooksUI.prototype._validateAddBook = function(){
 
 AddBooksUI.prototype._resetForm = function(){
   $("#addBookForm")[0].reset();
+  this._tempBookShelf = [];
+  this._bookToAddCounter = 0;
+  this.$container.find(".books-to-add").text(this._bookToAddCounter);
+
 };
 
 AddBooksUI.prototype._queueBook = function(){
-  var title = $("#addBookTitleField").val()
-  var author = $("#addBookAuthorField").val()
-  var pages = $("#addBookPagesField").val()
-  var haveRead = $("#addBookHaveReadField").val()
-  var pubDate = new Date($("#addBookDateField").val()).getUTCFullYear()
-  var coverImage = $("#addBookCoverField").val()
+  // var title = $("#addBookTitleField").val()
+  // var author = $("#addBookAuthorField").val()
+  // var pages = $("#addBookPagesField").val()
+  // var haveRead = $("#addBookHaveReadField").val()
+  // var pubDate = new Date($("#addBookDateField").val()).getUTCFullYear()
+  // var coverImage = $("#addBookCoverField").val()
+
+  var myObj = new Object()
+  var serArr = this.$container.find("#addBookForm").serializeArray()
+  // console.log(serArr);
+  $.each(serArr,function(index, entry){
+    if(entry.value){
+      // console.log(myObj[entry.name] + " +key");
+      // console.log(entry.value + " +value");
+      myObj[entry.name] = entry.value;
+      // conso.le.log(myObj[entry.name] + " -key");
+      // console.log(entry.value + " -value");
+    }
+  })
+  //console.log(myObj);
+  console.log(myObj);
   //console.log("Title: "+title+", Author: "+author+", Pages: "+pages+", pubDate: "+pubDate)
-  var book = new Book(title,author,pages,pubDate,haveRead,coverImage);
+  var book = new Book(myObj)
+
+  //var book = new Book(title,author,pages,pubDate,haveRead,coverImage);
   if(this.checkBook(book)){
     var badCount = 0;
     for(var i = 0;i < this._tempBookShelf.length;i++){
-      if(title === this._tempBookShelf[i].title){
-        console.log("Sorry "+ book.title +" already exists.");
+      if(book.title.toLowerCase() === this._tempBookShelf[i].title.toLowerCase()){
+        alert("Sorry "+ book.title +" was already queued.");
         badCount++;
         break;
       }
@@ -51,8 +72,8 @@ AddBooksUI.prototype._queueBook = function(){
     }
     this._tempBookShelf.push(book)
     this._bookToAddCounter++;
-    $(".books-to-add").text(this._bookToAddCounter)
-    this._resetForm()
+    this.$container.find(".books-to-add").text(this._bookToAddCounter)
+    $("#addBookForm")[0].reset();
   }
   return;
 }
@@ -61,7 +82,7 @@ AddBooksUI.prototype._addBooksToLib = function(){
   this.addBooks(this._tempBookShelf)
   this._resetForm()
   this._bookToAddCounter = 0
-  $(".books-to-add").text(this._bookToAddCounter)
+  this.$container.find(".books-to-add").text(this._bookToAddCounter)
 }
 
 AddBooksUI.prototype._handleModalOpen = function(){

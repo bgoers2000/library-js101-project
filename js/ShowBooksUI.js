@@ -6,7 +6,7 @@ var ShowBooksUI = function(container){
 ShowBooksUI.prototype = Object.create(Library.prototype);
 
 ShowBooksUI.prototype.init = function(){
-  window.bookShelf = this.getStorage();
+  //window.bookShelf = this.getStorage();
   this._bindEvents();
   return;
 };

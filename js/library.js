@@ -12,20 +12,40 @@
 // var Library = function(){
 //   window.bookShelf = [];
 // };
+Library.prototype.handleEventTrigger = function (sEvent) {
+  var oData = oData || {}
+  if(sEvent){
+    var event = new CustomEvent(sEvent,oData)
+    document.dispatchEvent(event)
+  }
+};
 
-var Book = function(title,author,numberOfPages,publishDate,haveRead,coverImage){
-  this.title = title;
-  this.author = author;
-  this.numberOfPages = numberOfPages;
-  this.publishDate = new Date(publishDate.toString()).getUTCFullYear();
-  this.haveRead = haveRead || false;
-  this.coverImage = coverImage || "css/assets/itsatrap.jpg";
+
+
+// var Book = function(title,author,numberOfPages,publishDate,haveRead,coverImage){
+//   this.title = title;
+//   this.author = author;
+//   this.numberOfPages = numberOfPages;
+//   this.publishDate = new Date(publishDate.toString()).getUTCFullYear();
+//   this.haveRead = haveRead || false;
+//   this.coverImage = coverImage || "css/assets/itsatrap.jpg";
+// }
+var Book = function(args){
+  this.title = String(args.title);
+  this.author = String(args.author);
+  this.numberOfPages = Number(args.numberOfPages);
+  this.publishDate = new Date(String(args.publishDate)).getUTCFullYear();
+  this.haveRead = args.haveRead || false;
+  this.coverImage = args.coverImage || "css/assets/itsatrap.jpg";
 }
 
 Library.prototype.checkBook = function(book){
+  this.handleEventTrigger('objUpdate')
+  console.log(book);
+  console.log(book.title+ " book title");
   for(var i = 0;i < window.bookShelf.length;i++){
-    if(book.title === window.bookShelf[i].title){
-      console.log("Sorry "+ book.title +" already exists.");
+    if(book.title.toLowerCase() === window.bookShelf[i].title.toLowerCase()){
+      alert("Sorry "+ book.title +" already exists in the bookshelf.");
       return false;
     }
   }
@@ -35,13 +55,14 @@ Library.prototype.checkBook = function(book){
 Library.prototype.addBook = function(book){
   //console.log(book)
   for(var i = 0;i < window.bookShelf.length;i++){
-    if(book.title === window.bookShelf[i].title){
-      console.log("Sorry "+ book.title +" already exists.");
+    if(book.title.toLowerCase() === window.bookShelf[i].title.toLowerCase()){
+      console.log("Sorry "+ book.title +" already exists in the bookshelf.");
       return false;
     }
   }
   console.log("added " + book.title + " to book shelf");
   window.bookShelf.push(book)
+  this.handleEventTrigger('objUpdate')
   this.setStorage();
   return true;
 }
@@ -198,11 +219,21 @@ Library.prototype.getBookByPages = function(pages){
 
 
 
+// Library.prototype.getStorage = function(){
+//   var arr = []
+//   var parsedObj = JSON.parse(localStorage.getItem("myLibrary"))
+//   for (var i = 0; i < parsedObj.length; i++) {
+//     arr.push(new Book(parsedObj[i].title , parsedObj[i].author , parsedObj[i].numberOfPages , parsedObj[i].publishDate, parsedObj[i].haveRead,parsedObj[i].coverImage))
+//   }
+//   return arr
+// }
+
 Library.prototype.getStorage = function(){
   var arr = []
   var parsedObj = JSON.parse(localStorage.getItem("myLibrary"))
+  //console.log(parsedObj);
   for (var i = 0; i < parsedObj.length; i++) {
-    arr.push(new Book(parsedObj[i].title , parsedObj[i].author , parsedObj[i].numberOfPages , parsedObj[i].publishDate, parsedObj[i].haveRead,parsedObj[i].coverImage))
+    arr.push(new Book(parsedObj[i]))
   }
   return arr
 }
@@ -232,20 +263,20 @@ Library.prototype.setStorage = function(){
 
 
 
-var book1 = new Book("Harry Potter", "JK Rowling",300,2001);
-var book2 = new Book("Spot","Jane",20, 1980);
-var book3 = new Book("This is a book title","book writer",50, 2009);
-var book4 = new Book("This is another book title","Frank",235, 2010);
-var book5 = new Book("World of Books","Atlas",132, 2012);
-var book6 = new Book("World of Books","Atlas",132, 2012);
-var book7 = new Book("World of Books","Atlas",132, 2012);
-var book8 = new Book("Harry Potter Two", "JK Rowling", 200, 2002);
-var book9 = new Book("Harry Potter Three", "JK Rowling", 300, 2003);
-var book10 = new Book("Harry Potter Four", "JK Rowling", 400, 2004);
-var book11 = new Book("Harry Potter Five", "JK Rowling", 500, 2005);
-var book12 = new Book("Harry Potter Six", "JK Rowling",600, 2006);
-var book13 = new Book("year","shouldbe",2000,2000);
-var book14 = new Book("Im a book","Im an author",350,2005);
-var book15 = new Book("Im another book","Im another author",450,2006);
-var book16 = new Book("Im the last book","Im the last author",200,2016)
-var bookList = [book1,book2,book3,book4,book5,book6,book7,book8,book9,book10,book11,book12,book13]
+// var book1 = new Book("Harry Potter", "JK Rowling",300,2001);
+// var book2 = new Book("Spot","Jane",20, 1980);
+// var book3 = new Book("This is a book title","book writer",50, 2009);
+// var book4 = new Book("This is another book title","Frank",235, 2010);
+// var book5 = new Book("World of Books","Atlas",132, 2012);
+// var book6 = new Book("World of Books","Atlas",132, 2012);
+// var book7 = new Book("World of Books","Atlas",132, 2012);
+// var book8 = new Book("Harry Potter Two", "JK Rowling", 200, 2002);
+// var book9 = new Book("Harry Potter Three", "JK Rowling", 300, 2003);
+// var book10 = new Book("Harry Potter Four", "JK Rowling", 400, 2004);
+// var book11 = new Book("Harry Potter Five", "JK Rowling", 500, 2005);
+// var book12 = new Book("Harry Potter Six", "JK Rowling",600, 2006);
+// var book13 = new Book("year","shouldbe",2000,2000);
+// var book14 = new Book("Im a book","Im an author",350,2005);
+// var book15 = new Book("Im another book","Im another author",450,2006);
+// var book16 = new Book("Im the last book","Im the last author",200,2016)
+// var bookList = [book1,book2,book3,book4,book5,book6,book7,book8,book9,book10,book11,book12,book13]

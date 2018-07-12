@@ -28,7 +28,15 @@
       </nav>
     </header>
     <div class="container marg-top-bot">
-      <div class="row" id="bookTable">
+      <div class="row" id="bookTable"> <!-- TABLE GOES INSIDE HERE -->
+        <table id="data-table">
+          <thead id="data-table-head">
+
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
       </div>
     </div>
     <footer>
@@ -68,7 +76,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-book-title">Title</span>
                   </div>
-                  <input required id="addBookTitleField" type="text" placeholder="Book Title" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <input required name="title" id="addBookTitleField" type="text" placeholder="Book Title" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
@@ -78,7 +86,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-book-author">Author</span>
                   </div>
-                  <input required id="addBookAuthorField" type="text" placeholder="Author's Name" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <input required name="author" id="addBookAuthorField" type="text" placeholder="Author's Name" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
@@ -88,7 +96,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-">Pages</span>
                   </div>
-                  <input required id="addBookPagesField" type="number" placeholder=50 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <input required name="numberOfPages" id="addBookPagesField" type="number" placeholder=50 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
@@ -98,10 +106,9 @@
                   <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Have read?</label>
                   </div>
-                  <select required class="custom-select" id="addBookHaveReadField">
-                    <option selected>Choose...</option>
+                  <select required name="haveRead" class="custom-select" id="addBookHaveReadField">
                     <option value=true>Yes</option>
-                    <option value=false>No</option>
+                    <option selected value=false>No</option>
                   </select>
                 </div>
               </div>
@@ -112,7 +119,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Publish Date</span>
                   </div>
-                  <input required id="addBookDateField" type="date" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                  <input required name="publishDate" id="addBookDateField" type="date" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
                 </div>
               </div>
             </div>
@@ -127,7 +134,7 @@
               <div class="col-md-12">
                 <div class="input-group mb-3">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="addBookCoverField">
+                    <input name="coverImage" type="file" class="custom-file-input" id="addBookCoverField">
                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                   </div>
                 </div>
@@ -458,5 +465,7 @@
     <script src="js/ShowRandomBookUI.js" charset="utf-8"></script>
     <script src="js/ShowRandomAuthorUI.js" charset="utf-8"></script>
     <script src="js/ShowTableUI.js" charset="utf-8"></script>
+    <script src="js/SelectedBookUI.js" charset="utf-8"></script>
+    <!-- <script src="js/DataTable.js" charset="utf-8"></script> -->
   </body>
 </html>
