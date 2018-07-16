@@ -45,15 +45,14 @@ AddBooksUI.prototype._queueBook = function(){
   // console.log(serArr);
   $.each(serArr,function(index, entry){
     if(entry.value){
-      // console.log(myObj[entry.name] + " +key");
+      // console.log(entry.name + " +key");
       // console.log(entry.value + " +value");
       myObj[entry.name] = entry.value;
-      // conso.le.log(myObj[entry.name] + " -key");
+      // console.log(myObj[entry.name] + " -key");
       // console.log(entry.value + " -value");
     }
   })
   //console.log(myObj);
-  console.log(myObj);
   //console.log("Title: "+title+", Author: "+author+", Pages: "+pages+", pubDate: "+pubDate)
   var book = new Book(myObj)
 

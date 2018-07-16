@@ -415,6 +415,7 @@
 <div class="modal fade" id="selectedBookModal" tabindex="-1"  onloadedmetadata=""role="dialog" aria-labelledby="selectedBookModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+      <form id="selectedBookForm">
       <div class="modal-header">
         <h5 class="modal-title" id="selectedBookModalLabel">Selected Book!</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -427,25 +428,27 @@
             <div class="card center-card" style="width: 18rem;">
               <img class="card-img-top" src="css/assets/itsatrap.jpg" alt="Card image cap">
               <div class="card-body">
-                <h5 class="card-title">Book Title</h5>
-                <p class="card-text">Author</p>
+                <h5 id="selectedBookTitle" class="card-title">Book Title</h5>
+                <p id="selectedBookAuthor" class="card-text">Author</p>
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item">pubDate</li>
-                <li class="list-group-item">pages</li>
-                <li class="list-group-item">Have Read?</li>
+                <li id="selectedBookPubDate" class="list-group-item">pubDate</li>
+                <li id="selectedBookPages" class="list-group-item">pages</li>
+                <li id="selectedBookHaveRead" class="list-group-item">Have Read?</li>
               </ul>
               <div class="card-body">
-                <a href="https://www.google.com/search?q=" class="card-link">Google</a>
-                <a href="https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=" class="card-link">Amazon</a>
+                <a id="selectedBookGoogleLink" href="https://www.google.com/search?q=" class="card-link">Google</a>
+                <a id="selectedBookAmazonLink" href="https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=" class="card-link">Amazon</a>
               </div>
               <div class="card-body">
-                <button type="button" class="btn btn-warning">Edit Book</button>
+                <button id="selectedBookEditBtn"  type="button" class="btn btn-warning show">Edit Book</button>
+                <button id='selectedBookSaveBtn'  type='button' class='btn btn-success hide'>Save Book</button>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </form>
     </div>
   </div>
 </div>

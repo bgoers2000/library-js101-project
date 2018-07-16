@@ -20,6 +20,7 @@ ShowRandomBookUI.prototype._handleShowRandomBook = function(){
   //console.log(book)
   if(book === null){
     alert("There are no books in the bookshelf!")
+    return;
   }else{
     //TODO INSERT COVER IMAGE PART HERE
     this.$container.find("#randomBookTitle").text(book.title)

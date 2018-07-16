@@ -52,6 +52,21 @@ Library.prototype.checkBook = function(book){
   return true;
 }
 
+Library.prototype.editBook = function (title,args) {
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    if(window.bookShelf[i].title === title){
+       window.bookShelf[i].title = args.title;
+       window.bookShelf[i].author = args.author;
+       window.bookShelf[i].numberOfPages = args.numberOfPages;
+       window.bookShelf[i].publishDate = args.publishDate;
+       window.bookShelf[i].haveRead = args.haveRead;
+       window.bookShelf[i].coverImage = args.coverImage;
+       this.setStorage()
+    }
+  }
+  this.handleEventTrigger('objUpdate');
+};
+
 Library.prototype.addBook = function(book){
   //console.log(book)
   for(var i = 0;i < window.bookShelf.length;i++){
@@ -72,6 +87,7 @@ Library.prototype.removeBookByTitle = function(title){
     if(window.bookShelf[i].title.toLowerCase() === title.toLowerCase()){
       console.log("removed " + window.bookShelf[i].title + " from book shelf");
       window.bookShelf.splice(i,1)
+      this.handleEventTrigger('objUpdate')
       this.setStorage();
       return true;
     }
@@ -105,6 +121,14 @@ Library.prototype.getRandomBook = function(){
     return window.bookShelf[Math.floor(Math.random() * Math.floor(window.bookShelf.length))]
   }
 }
+
+Library.prototype.getSingleBookByTitle = function (title) {
+  for (var i = 0; i < window.bookShelf.length; i++) {
+    if(window.bookShelf[i].title.toLowerCase() === title.toLowerCase()){
+      return window.bookShelf[i]
+    }
+  }
+};
 
 Library.prototype.getBookByTitle = function(title){
   var matchedArr = [];

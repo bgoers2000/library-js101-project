@@ -20,6 +20,19 @@ ShowTableUI.prototype._bindCustomListeners = function () {
   $(document).on('objUpdate', $.proxy(this._makeBookTable, this,window.bookShelf));
 };
 
+ShowTableUI.prototype._spacesToCamelCase = function (str) {
+  var splits = str.split(/(?=[A-Z]+)/);
+  var rejoined = splits.join(" ");
+  var myArr = [];
+  for(i = 0;i < rejoined.length;i++)
+  if(i === 0){
+    myArr.push(rejoined[i].toUpperCase())
+  }else{
+    myArr.push(rejoined[i])
+  }
+  return myArr.join("");
+};
+
 
 ShowTableUI.prototype._makeBookTable = function(books){
   var table = document.createElement("table") //MADE TABLE TAG
@@ -32,7 +45,7 @@ ShowTableUI.prototype._makeBookTable = function(books){
   if(books[0]){
     for (var key in books[0]) {
       var th = document.createElement("th")
-      $(th).text(key)
+      $(th).text(this._spacesToCamelCase(key))
       tr.append(th)
     }
   }else{
@@ -47,12 +60,13 @@ ShowTableUI.prototype._makeBookTable = function(books){
     for (var key in book) {
       var td = document.createElement("td")
         $(td).text(book[key])
-        $(td).attr("id",book[key])
+        $(td).data(key,book[key])
         tr.append(td)
     }
   }
   $(table).append(tbody)
   $("#bookTable").html(table)
+
    // console.log(table)
   return;
 }

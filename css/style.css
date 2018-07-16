@@ -92,3 +92,13 @@ body{
 .table-striped tbody tr:nth-of-type(even) {
   background-color: #AE9784;
 }
+
+.show {
+  display:block !important;
+  margin:auto;
+}
+
+.hide {
+  display: none !important;
+  margin:auto;
+}
