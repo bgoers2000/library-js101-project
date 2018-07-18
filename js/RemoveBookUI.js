@@ -42,6 +42,7 @@ RemoveBookUI.prototype._removeBook = function(){
     this.removeBookByAuthor(this.$container.find("#removeBookByInputField").val())
     this.$container.find("#removeBookByForm")[0].reset()
   }
+  this.$container.modal("hide")
 };
 
 $(function(){

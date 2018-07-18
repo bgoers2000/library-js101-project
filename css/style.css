@@ -102,3 +102,18 @@ body{
   display: none !important;
   margin:auto;
 }
+#randomBookCoverImage {
+  max-height: 200px;
+}
+
+#selectedBookCoverImage {
+  max-height: 200px;
+}
+
+.thumbnailImage{
+  max-height:50px;
+}
+
+.thumbnailImage:hover {
+  max-height: 125px;
+}

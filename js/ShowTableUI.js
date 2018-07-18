@@ -18,21 +18,13 @@ ShowTableUI.prototype._bindEvents = function(){
 
 ShowTableUI.prototype._bindCustomListeners = function () {
   $(document).on('objUpdate', $.proxy(this._makeBookTable, this,window.bookShelf));
+  $(document).on('tableUpdate',$.proxy(this._updateTable,this))
 };
 
-ShowTableUI.prototype._spacesToCamelCase = function (str) {
-  var splits = str.split(/(?=[A-Z]+)/);
-  var rejoined = splits.join(" ");
-  var myArr = [];
-  for(i = 0;i < rejoined.length;i++)
-  if(i === 0){
-    myArr.push(rejoined[i].toUpperCase())
-  }else{
-    myArr.push(rejoined[i])
-  }
-  return myArr.join("");
+ShowTableUI.prototype._updateTable = function (e) {
+  // console.log(e);
+  this._makeBookTable(e.detail)
 };
-
 
 ShowTableUI.prototype._makeBookTable = function(books){
   var table = document.createElement("table") //MADE TABLE TAG
@@ -45,7 +37,7 @@ ShowTableUI.prototype._makeBookTable = function(books){
   if(books[0]){
     for (var key in books[0]) {
       var th = document.createElement("th")
-      $(th).text(this._spacesToCamelCase(key))
+      $(th).text(spacesToCamelCase(key))
       tr.append(th)
     }
   }else{
@@ -59,14 +51,27 @@ ShowTableUI.prototype._makeBookTable = function(books){
     tbody.append(tr)
     for (var key in book) {
       var td = document.createElement("td")
-        $(td).text(book[key])
+      // console.log(book[key]);
+      if(book[key] === "true"){
+        $(td).html("<i style='font-size:1.2em;color:green' class='icon-book'></i>")
         $(td).data(key,book[key])
         tr.append(td)
+      }else if(book[key] === "false"){
+        $(td).html("<i style='font-size:1.2em;color:red' class='icon-book'></i>")
+        $(td).data(key,book[key])
+        tr.append(td)
+    }else if(key === "coverImage"){
+      $(td).html("<img class='thumbnailImage' src='"+ book[key] +"' alt='book cover image'>")
+      $(td).data(key,book[key])
+      tr.append(td)
+    }else{
+      $(td).text(book[key])
+      $(td).data(key,book[key])
+      tr.append(td)
     }
-  }
+  }}
   $(table).append(tbody)
   $("#bookTable").html(table)
-
    // console.log(table)
   return;
 }

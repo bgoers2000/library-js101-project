@@ -23,11 +23,17 @@ ShowRandomBookUI.prototype._handleShowRandomBook = function(){
     return;
   }else{
     //TODO INSERT COVER IMAGE PART HERE
+    this.$container.find("#randomBookCoverImage").attr("src",book.coverImage)
     this.$container.find("#randomBookTitle").text(book.title)
     this.$container.find("#randomBookAuthor").text(book.author)
     this.$container.find("#randomBookPubDate").text("Publish Date: " + book.publishDate)
     this.$container.find("#randomBookPages").text("Number of Pages: " + book.numberOfPages)
-    this.$container.find("#randomBookHaveRead").text("Have Read?: " + book.haveRead)
+    if (book.haveRead === "true") {
+      this.$container.find("#randomBookHaveRead").text("Have Read?: Yes")
+    }else{
+      this.$container.find("#randomBookHaveRead").text("Have Read?: No")
+    }
+
     //href="https://www.google.com/search?q="
     this.$container.find("#randomBookGoogleLink").attr("href","https://www.google.com/search?q=" + book.title)
     this.$container.find("#randomBookAmazonLink").attr("href","https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=" + book.title)

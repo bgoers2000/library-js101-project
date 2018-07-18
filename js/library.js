@@ -12,10 +12,10 @@
 // var Library = function(){
 //   window.bookShelf = [];
 // };
-Library.prototype.handleEventTrigger = function (sEvent) {
+Library.prototype.handleEventTrigger = function (sEvent,oData) {
   var oData = oData || {}
   if(sEvent){
-    var event = new CustomEvent(sEvent,oData)
+    var event = new CustomEvent(sEvent,{'detail':oData})
     document.dispatchEvent(event)
   }
 };
@@ -98,7 +98,7 @@ Library.prototype.removeBookByTitle = function(title){
 Library.prototype.removeBookByAuthor = function(author){
   var removeCounter = 0;
   for (var i = 0; i < window.bookShelf.length; i++) {
-    if(window.bookShelf[i].author === author){
+    if(window.bookShelf[i].author.toLowerCase() === author.toLowerCase()){
       console.log("removed " + window.bookShelf[i].title + " from book shelf");
       window.bookShelf.splice(i,1)
       i--;
@@ -106,6 +106,7 @@ Library.prototype.removeBookByAuthor = function(author){
     }
   }
   if(removeCounter > 0){
+    this.handleEventTrigger('objUpdate');
     this.setStorage();
     return true;
   }else{
@@ -194,7 +195,6 @@ Library.prototype.getRandomAuthorName = function(){
 }
 
 Library.prototype.Search = function(searchParam){
-  //THE DREAM "title=harry potter,author=jk,pages=200,date=2001"
   var arr = [];
   var searchResults = []
   var uniqueSearchResults = []
@@ -207,9 +207,9 @@ Library.prototype.Search = function(searchParam){
       searchResults = searchResults.concat(this.getBookByTitle(arr[i+1].trim()))
     }else if(arr[i].trim() === "author"){
       searchResults = searchResults.concat(this.getBooksByAuthor(arr[i+1].trim()))
-    }else if(arr[i].trim() === "pages"){
+    }else if(arr[i].trim() === "numberOfPages"){
       searchResults = searchResults.concat(this.getBookByPages(arr[i+1].trim()))
-    }else if(arr[i].trim() === "date"){
+    }else if(arr[i].trim() === "publishDate"){
       searchResults = searchResults.concat(this.getBookByDate(arr[i+1].trim()))
     }
     i++;

@@ -15,13 +15,37 @@ AddBooksUI.prototype._bindEvents = function(){
   $('#addBookModalBtn').on('click',$.proxy(this._handleModalOpen,this))
   this.$container.find('#queueBookToBeAddedBtn').on('click',$.proxy(this._validateAddBook,this))
   this.$container.find("#addBooksResetFormBtn").on('click',$.proxy(this._resetForm,this))
+  this.$container.on('hidden.bs.modal',$.proxy(this._resetForm,this))
   this.$container.find("#addBooksAddBooksToLibBtn").on('click',$.proxy(this._addBooksToLib,this))
+  this.$container.find("#addBookCoverField").on('change',$.proxy(this._handleImageUpload,this))
+};
+
+
+AddBooksUI.prototype._handleImageUpload = function () {
+    var preview = document.querySelector('#addBookCoverImage');
+    var file = document.querySelector('input[type=file]').files[0];
+    var reader = new FileReader();
+
+   reader.addEventListener("load", function () {
+     preview.src = reader.result;
+   }, false);
+
+   if (file) {
+     return reader.readAsDataURL(file);
+   }
 };
 
 AddBooksUI.prototype._validateAddBook = function(){
-
-  this._queueBook();
-
+  var form = document.getElementsByClassName('needs-validation')[0]
+  if(form.checkValidity() === false){
+    event.preventDefault();
+    event.stopPropagation();
+    form.classList.add('was-validated')
+  }else{
+    form.classList.add('was-validated')
+    this._queueBook()
+    form.classList.remove('was-validated')
+  }
 };
 
 AddBooksUI.prototype._resetForm = function(){
@@ -42,7 +66,7 @@ AddBooksUI.prototype._queueBook = function(){
 
   var myObj = new Object()
   var serArr = this.$container.find("#addBookForm").serializeArray()
-  // console.log(serArr);
+  console.log(serArr);
   $.each(serArr,function(index, entry){
     if(entry.value){
       // console.log(entry.name + " +key");
@@ -52,6 +76,8 @@ AddBooksUI.prototype._queueBook = function(){
       // console.log(entry.value + " -value");
     }
   })
+
+  myObj['coverImage'] = $("#addBookCoverImage").attr("src")
   //console.log(myObj);
   //console.log("Title: "+title+", Author: "+author+", Pages: "+pages+", pubDate: "+pubDate)
   var book = new Book(myObj)

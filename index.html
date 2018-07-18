@@ -5,6 +5,8 @@
     <title>Library App</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fontello/css/book.css">
+    <link rel="stylesheet" href="css/fontello/css/book-codes.css">
   </head>
   <body class="bg">
     <header>
@@ -16,10 +18,10 @@
             <button type="button" id="removeBookModalBtn" class="btn bg-light-beige">Remove Book</button>
           </div>
           <div class="col-md-3 text-center">
-            <input class="rounded" type="text" name="Search" value="" placeholder="search by title">
+            <input id="searchInput" class="rounded" type="text" name="Search" value="" placeholder="search by title">
             <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Basic example">
-              <button type="button" class="btn bg-light-beige">Search</button>
-              <button type="button" class="btn bg-light-beige" data-toggle="modal" data-target="#advSearchModal">Adv Search</button>
+              <button id="searchBtn" type="button" class="btn bg-light-beige">Search</button>
+              <button id="advSearchModalBtn" type="button" class="btn bg-light-beige">Adv Search</button>
             </div>
           </div>
           <div class="col-md-3 text-center">
@@ -141,14 +143,14 @@
               </div>
             </div>
             <div class="row">
-              <img src="css/assets/itsatrap.jpg" class="img-thumbnail book-cover-thumbnail" alt="Responsive image">
+              <img id="addBookCoverImage" class="img-thumbnail book-cover-thumbnail" alt="Responsive image">
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
           <div class="col-md-4 text-center">
-            <button id="addBooksResetFormBtn" type="button" class="btn btn-secondary">Reset</button>
+            <button id="addBooksResetFormBtn" type="submit" class="btn btn-secondary">Reset</button>
           </div>
           <div class="col-md-4 text-center">
             <span class="books-to-add">0</span> book(s) waiting to be added
@@ -285,7 +287,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="advSearchModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="advSearchModalLabel">Advanced Search</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -293,33 +295,36 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Search by</label>
+            <form id="advSearchSelectorForm">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Add Search Field</label>
+                </div>
+                <select class="custom-select" id="advSearchSelectSearchField">
+                  <option id="advSearchSelectDefault" selected>Choose...</option>
+                  <option value='title'>Book Title</option>
+                  <option value='author'>Author</option>
+                  <option value='numberOfPages'>Pages</option>
+                  <option value='publishDate'>Publish Date</option>
+                </select>
               </div>
-              <select class="custom-select" id="inputGroupSelect01">
-                <option selected>Choose...</option>
-                <option value=0>Book Title</option>
-                <option value=1>Author</option>
-                <option value=2>Pages</option>
-                <option value=3>Publish Date</option>
-              </select>
-            </div>
+            </form>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">CHANGE TO SELECTION</span>
-              </div>
-              <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-            </div>
+            <form id="advSearchSearchFields">
+            </form>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning btn-lg btn-block">Search!</button>
+        <div class="col-md-4">
+          <button id="resetSearchFieldsBtn" type="button" class="btn btn-secondary btn-lg btn-block">Reset</button>
+        </div>
+        <div class="col-md-8">
+          <button id="advSearchResultsBtn" type="button" class="btn btn-warning btn-lg btn-block">Search!</button>
+        </div>
       </div>
     </div>
   </div>
@@ -418,7 +423,7 @@
       <form id="selectedBookForm">
       <div class="modal-header">
         <h5 class="modal-title" id="selectedBookModalLabel">Selected Book!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button id="closeSelectedBookModalBtn" type="button" class="close" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -426,7 +431,7 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <div class="card center-card" style="width: 18rem;">
-              <img class="card-img-top" src="css/assets/itsatrap.jpg" alt="Card image cap">
+              <img id="selectedBookCoverImage" class="card-img-top" src="css/assets/itsatrap.jpg" alt="Card image cap">
               <div class="card-body">
                 <h5 id="selectedBookTitle" class="card-title">Book Title</h5>
                 <p id="selectedBookAuthor" class="card-text">Author</p>
@@ -441,8 +446,15 @@
                 <a id="selectedBookAmazonLink" href="https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=" class="card-link">Amazon</a>
               </div>
               <div class="card-body">
-                <button id="selectedBookEditBtn"  type="button" class="btn btn-warning show">Edit Book</button>
-                <button id='selectedBookSaveBtn'  type='button' class='btn btn-success hide'>Save Book</button>
+                <div class="row">
+                  <div class="col-md-6">
+                    <button id="selectedBookRemoveBtn" type="button" class="btn btn-danger">Remove Book</button>
+                  </div>
+                  <div class="col-md-6">
+                    <button id="selectedBookEditBtn"  type="button" class="btn btn-warning show">Edit Book</button>
+                    <button id='selectedBookSaveBtn'  type='button' class='btn btn-success hide'>Save Book</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -469,6 +481,7 @@
     <script src="js/ShowRandomAuthorUI.js" charset="utf-8"></script>
     <script src="js/ShowTableUI.js" charset="utf-8"></script>
     <script src="js/SelectedBookUI.js" charset="utf-8"></script>
+    <script src="js/AdvancedSearchUI.js" charset="utf-8"></script>
     <!-- <script src="js/DataTable.js" charset="utf-8"></script> -->
   </body>
 </html>
