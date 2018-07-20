@@ -2,11 +2,486 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Library App</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fontello/css/book.css">
+    <link rel="stylesheet" href="css/fontello/css/book-codes.css">
   </head>
-  <body>
-    <h1><a href="https://www.google.com">GOOGLE</a></h1>
+  <body class="bg">
+    <header>
+      <nav class="navbar navbar-dark bg-wood" id="myHeader"> <!-- TOP NAV BAR -->
+          <div class="col-md-3 text-center">
+            <button type="button" id="addBookModalBtn" class="btn bg-light-beige">Add Book</button>
+          </div>
+          <div class="col-md-3 text-center">
+            <button type="button" id="removeBookModalBtn" class="btn bg-light-beige">Remove Book</button>
+          </div>
+          <div class="col-md-3 text-center">
+            <input id="searchInput" class="rounded" type="text" name="Search" value="" placeholder="search by title">
+            <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Basic example">
+              <button id="searchBtn" type="button" class="btn bg-light-beige">Search</button>
+              <button id="advSearchModalBtn" type="button" class="btn bg-light-beige">Adv Search</button>
+            </div>
+          </div>
+          <div class="col-md-3 text-center">
+            <button type="button" class="btn bg-light-beige" name="Login" data-toggle="modal" data-target="#loginModal">Login</button>
+          </div>
+      </nav>
+    </header>
+    <div class="container marg-top-bot">
+      <div class="row" id="bookTable"> <!-- TABLE GOES INSIDE HERE -->
+        <table id="data-table">
+          <thead id="data-table-head">
 
-    <script src="library.js" charset="utf-8"></script>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <footer>
+      <nav class="navbar navbar-dark bg-wood" id="myFooter"> <!-- BOTTOM NAV BAR -->
+        <div class="col-md-4 text-center">
+          <button type="button" id="showRandomBookBtn" class="btn bg-light-beige bg-random">Random Book</button>
+          <button type="button" id="showAllBooksBtn" class="btn bg-light-beige">Show All Books</button>
+        </div>
+        <div class="col-md-4 text-center">
+          <button type="button" id="showTableBtn" class="btn bg-light-beige">Show Table</button>
+        </div>
+        <div class="col-md-4 text-center">
+          <button type="button" id="showRandomAuthorBtn" class="btn bg-light-beige bg-random">Random Author</button>
+          <button type="button" id="showAllAuthorsBtn" class="btn bg-light-beige">Show All Authors</button>
+        </div>
+      </nav>
+    </footer>
+<!-- ************************************MODALS******************************* -->
+
+<!-- addBookModal START -->
+<div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addBookModalLabel">Add Book</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="needs-validation" novalidate id="addBookForm"> <!-- FORM START -->
+        <div class="row">
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-book-title">Title</span>
+                  </div>
+                  <input required name="title" id="addBookTitleField" type="text" placeholder="Book Title" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-book-author">Author</span>
+                  </div>
+                  <input required name="author" id="addBookAuthorField" type="text" placeholder="Author's Name" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-">Pages</span>
+                  </div>
+                  <input required name="numberOfPages" id="addBookPagesField" type="number" placeholder=50 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Have read?</label>
+                  </div>
+                  <select required name="haveRead" class="custom-select" id="addBookHaveReadField">
+                    <option value=true>Yes</option>
+                    <option selected value=false>No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Publish Date</span>
+                  </div>
+                  <input required name="publishDate" id="addBookDateField" type="date" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <button id="queueBookToBeAddedBtn" type="button" class="btn btn-primary">Queue book to be added</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <input name="coverImage" type="file" class="custom-file-input" id="addBookCoverField">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <img id="addBookCoverImage" class="img-thumbnail book-cover-thumbnail" alt="Responsive image">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-4 text-center">
+            <button id="addBooksResetFormBtn" type="submit" class="btn btn-secondary">Reset</button>
+          </div>
+          <div class="col-md-4 text-center">
+            <span class="books-to-add">0</span> book(s) waiting to be added
+          </div>
+        </form> <!-- FORM END -->
+          <div class="col-md-4 text-center">
+            <button type="button" id="addBooksAddBooksToLibBtn" class="btn btn-success">Add to Library</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- addBookModal END -->
+
+<!-- removeBookModal START -->
+<div class="modal fade" id="removeBookModal" tabindex="-1" role="dialog" aria-labelledby="removeBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeBookModalLabel">Remove Book</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="removeBookByForm">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Remove by</label>
+              </div>
+              <select class="custom-select" id="removeBookSelectorDropDown">
+                <option value="Book Title">Book Title</option>
+                <option value="Author">Author</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="removeBookBySelectionText">Book Title</span>
+              </div>
+              <input id="removeBookByInputField" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="removeBookBtn" class="btn btn-danger btn-lg btn-block">Remove!</button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+<!-- removeBookModal END -->
+
+<!-- loginModal START -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Remember Me???(maybe)</label>
+          </div>
+
+      </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+<!-- loginModal END -->
+
+<!-- randomBookModal START -->
+<div class="modal fade" id="randomBookModal" tabindex="-1" role="dialog" aria-labelledby="randomBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="randomBookModalLabel">Random Book!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="card center-card" style="width: 18rem;">
+              <img id="randomBookCoverImage" class="card-img-top" src="css/assets/itsatrap.jpg" alt="Card image cap">
+              <div class="card-body">
+                <h5 id="randomBookTitle" class="card-title">Book Title</h5>
+                <p id="randomBookAuthor" class="card-text">Author</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li id="randomBookPubDate" class="list-group-item">pubDate</li>
+                <li id="randomBookPages" class="list-group-item">pages</li>
+                <li id="randomBookHaveRead" class="list-group-item">Have Read?</li>
+              </ul>
+              <div class="card-body">
+                <a id="randomBookGoogleLink" class="card-link">Google</a>
+                <a id="randomBookAmazonLink" class="card-link">Amazon</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- randomBookModal END -->
+
+<!-- advSearchModal START -->
+<div class="modal fade" id="advSearchModal" tabindex="-1" role="dialog" aria-labelledby="advSearchModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="advSearchModalLabel">Advanced Search</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form id="advSearchSelectorForm">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Add Search Field</label>
+                </div>
+                <select class="custom-select" id="advSearchSelectSearchField">
+                  <option id="advSearchSelectDefault" selected>Choose...</option>
+                  <option value='title'>Book Title</option>
+                  <option value='author'>Author</option>
+                  <option value='numberOfPages'>Pages</option>
+                  <option value='publishDate'>Publish Date</option>
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form id="advSearchSearchFields">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-4">
+          <button id="resetSearchFieldsBtn" type="button" class="btn btn-secondary btn-lg btn-block">Reset</button>
+        </div>
+        <div class="col-md-8">
+          <button id="advSearchResultsBtn" type="button" class="btn btn-warning btn-lg btn-block">Search!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- advSearchModal END -->
+
+<!-- showAllBooksModal START -->
+<div class="modal fade" id="showAllBooksModal" tabindex="-1" role="dialog" aria-labelledby="showAllBooksModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showAllBooksModalLabel">All Books</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item">Book1</li>
+          <li class="list-group-item">Book2</li>
+          <li class="list-group-item">Book3</li>
+          <li class="list-group-item">Book4</li>
+          <li class="list-group-item">Book5</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- showAllBooksModal END -->
+
+<!-- randomAuthorModal START -->
+<div class="modal fade" id="randomAuthorModal" tabindex="-1" role="dialog" aria-labelledby="randomAuthorModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="randomAuthorModalLabel">Random Author!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="card center-card" style="width: 18rem;">
+          <!-- <img class="card-img-top" src="css/assets/itsatrap.jpg" alt="picture of author"> -->
+          <div class="card-body">
+            <h5 id="randomAuthorName" class="card-title">Author Name</h5>
+            <!-- <p class="card-text">Date of birth</p> -->
+            <!-- <a href="#" class="btn btn-primary">Wiki</a> -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-body text-center">
+        <h5 id="booksByRandomAuthorName">Books by Author Name</h5>
+        <div id="listOfAuthorsBooks">
+        <ul class="list-group">
+          <li class="list-group-item">Book1</li>
+          <li class="list-group-item">Book2</li>
+          <li class="list-group-item">Book3</li>
+          <li class="list-group-item">Book4</li>
+          <li class="list-group-item">Book5</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- randomAuthorModal END -->
+
+<!-- showAllAuthorsModal START -->
+<div class="modal fade" id="showAllAuthorsModal" tabindex="-1" role="dialog" aria-labelledby="showAllAuthorsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showAllAuthorsModalLabel">All Authors</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item">Author1</li>
+          <li class="list-group-item">Author2</li>
+          <li class="list-group-item">Author3</li>
+          <li class="list-group-item">Author4</li>
+          <li class="list-group-item">Author5</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- showAllAuthorsModal END -->
+
+<!-- selectedBookModal START -->
+<div class="modal fade" id="selectedBookModal" tabindex="-1"  onloadedmetadata=""role="dialog" aria-labelledby="selectedBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="selectedBookForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="selectedBookModalLabel">Selected Book!</h5>
+        <button id="closeSelectedBookModalBtn" type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="card center-card" style="width: 18rem;">
+              <img id="selectedBookCoverImage" class="card-img-top" src="css/assets/itsatrap.jpg" alt="Card image cap">
+              <div class="card-body">
+                <h5 id="selectedBookTitle" class="card-title">Book Title</h5>
+                <p id="selectedBookAuthor" class="card-text">Author</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li id="selectedBookPubDate" class="list-group-item">pubDate</li>
+                <li id="selectedBookPages" class="list-group-item">pages</li>
+                <li id="selectedBookHaveRead" class="list-group-item">Have Read?</li>
+              </ul>
+              <div class="card-body">
+                <a id="selectedBookGoogleLink" href="https://www.google.com/search?q=" class="card-link">Google</a>
+                <a id="selectedBookAmazonLink" href="https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=" class="card-link">Amazon</a>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <button id="selectedBookRemoveBtn" type="button" class="btn btn-danger">Remove Book</button>
+                  </div>
+                  <div class="col-md-6">
+                    <button id="selectedBookEditBtn"  type="button" class="btn btn-warning show">Edit Book</button>
+                    <button id='selectedBookSaveBtn'  type='button' class='btn btn-success hide'>Save Book</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!-- selectedBookModal END -->
+
+<!-- ************************************MODALS END******************************* -->
+
+    <script src="js/jquery-3.3.1.js" charset="utf-8"></script>
+    <script src="js/bootstrap.bundle.js" charset="utf-8"></script>
+    <script src="js/Util.js" charset="utf-8"></script>
+    <script src="js/library.js" charset="utf-8"></script>
+    <script src="js/index.js" charset="utf-8"></script>
+    <script src="js/ShowAuthorsUI.js" charset="utf-8"></script>
+    <script src="js/AddBooksUI.js" charset="utf-8"></script>
+    <script src="js/RemoveBookUI.js" charset="utf-8"></script>
+    <script src="js/ShowBooksUI.js" charset="utf-8"></script>
+    <script src="js/ShowRandomBookUI.js" charset="utf-8"></script>
+    <script src="js/ShowRandomAuthorUI.js" charset="utf-8"></script>
+    <script src="js/ShowTableUI.js" charset="utf-8"></script>
+    <script src="js/SelectedBookUI.js" charset="utf-8"></script>
+    <script src="js/AdvancedSearchUI.js" charset="utf-8"></script>
+    <!-- <script src="js/DataTable.js" charset="utf-8"></script> -->
   </body>
 </html>
