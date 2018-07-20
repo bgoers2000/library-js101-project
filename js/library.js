@@ -35,7 +35,7 @@ var Book = function(args){
   this.author = String(args.author);
   this.numberOfPages = Number(args.numberOfPages);
   this.publishDate = new Date(String(args.publishDate)).getUTCFullYear();
-  this.haveRead = args.haveRead || false;
+  this.haveRead = (args.haveRead === "true" || args.haveRead === true) ? true : false || false;
   this.coverImage = args.coverImage || "css/assets/itsatrap.jpg";
 }
 

@@ -1,5 +1,6 @@
 var ShowTableUI = function(){
   Library.call(this)
+  this.libraryURL = "http://127.0.0.1:3002/Library"
 };
 
 ShowTableUI.prototype = Object.create(Library.prototype);
@@ -13,13 +14,28 @@ ShowTableUI.prototype.init = function(){
 }
 
 ShowTableUI.prototype._bindEvents = function(){
-  $("#showTableBtn").on('click',$.proxy(this._makeBookTable,this,window.bookShelf))
+  //$("#showTableBtn").on('click',$.proxy(this._makeBookTable,this,window.bookShelf))
+  $("#showTableBtn").on('click',$.proxy(this._getBooksAndMakeBookTable,this))
 }
 
 ShowTableUI.prototype._bindCustomListeners = function () {
   $(document).on('objUpdate', $.proxy(this._makeBookTable, this,window.bookShelf));
   $(document).on('tableUpdate',$.proxy(this._updateTable,this))
 };
+
+ShowTableUI.prototype._getBooksAndMakeBookTable = function () {
+  $.ajax({
+      url: this.libraryURL,
+      dataType: 'json',
+      method: 'GET',
+      success: (data) => {
+        window.bookShelf = getRidOfIdAndV(data)
+        this._makeBookTable(getRidOfIdAndV(data))
+        }
+      })
+      // data:
+};
+
 
 ShowTableUI.prototype._updateTable = function (e) {
   // console.log(e);
@@ -50,18 +66,20 @@ ShowTableUI.prototype._makeBookTable = function(books){
     $(tr).addClass("library-rows table-rows")
     tbody.append(tr)
     for (var key in book) {
+      // console.log(key);
       var td = document.createElement("td")
       // console.log(book[key]);
-      if(book[key] === "true"){
+      if(book[key] === true){
         $(td).html("<i style='font-size:1.2em;color:green' class='icon-book'></i>")
         $(td).data(key,book[key])
         tr.append(td)
-      }else if(book[key] === "false"){
+      }else if(book[key] === false){
         $(td).html("<i style='font-size:1.2em;color:red' class='icon-book'></i>")
         $(td).data(key,book[key])
         tr.append(td)
     }else if(key === "coverImage"){
-      $(td).html("<img class='thumbnailImage' src='"+ book[key] +"' alt='book cover image'>")
+      var myCover = book[key].toString()
+      $(td).html("<img class='thumbnailImage' src='"+ myCover +"' alt='book cover image'>")
       $(td).data(key,book[key])
       tr.append(td)
     }else{

@@ -31,3 +31,20 @@ var spacesToCamelCase = function (str) {
   }
   return myArr.join("");
 };
+
+var getRidOfIdAndV = function(obj){
+  var tempArr = []
+  for (var i = 0; i < obj.length; i++) {
+    var myObj = new Object();
+    for (var key in obj[i]) {
+      if(key === "_id" || key === "__v"){
+
+      }else{
+        myObj[key] = obj[i][key]
+      }
+    }
+    tempArr.push(new Book(myObj))
+  }
+  console.log(tempArr);
+  return tempArr
+}
