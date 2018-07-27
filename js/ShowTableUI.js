@@ -15,11 +15,20 @@ ShowTableUI.prototype.init = function(){
 ShowTableUI.prototype._bindEvents = function(){
   //$("#showTableBtn").on('click',$.proxy(this._makeBookTable,this,window.bookShelf))
   $("#showTableBtn").on('click',$.proxy(this._getBooksAndMakeBookTable,this))
+  $("#lisaFrankifyBtn").on('click',$.proxy(this.lisaFrankify,this))
 }
 
 ShowTableUI.prototype._bindCustomListeners = function () {
   $(document).on('objUpdate', $.proxy(this._makeBookTable, this,window.bookShelf));
   $(document).on('tableUpdate',$.proxy(this._updateTable,this))
+};
+
+
+ShowTableUI.prototype.lisaFrankify = function () {
+  $('body *').each(function(){
+      $(this).addClass('rainbow1');
+      $(this).addClass('rainbow2');
+});
 };
 
 ShowTableUI.prototype._getBooksAndMakeBookTable = function () {
