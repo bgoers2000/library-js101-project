@@ -66,7 +66,7 @@ AddBooksUI.prototype._queueBook = function(){
 
   var myObj = new Object()
   var serArr = this.$container.find("#addBookForm").serializeArray()
-  console.log(serArr);
+  //console.log(serArr);
   $.each(serArr,function(index, entry){
     if(entry.value){
       // console.log(entry.name + " +key");

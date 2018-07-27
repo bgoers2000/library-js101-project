@@ -151,6 +151,7 @@ SelectedBookUI.prototype._saveMode = function () {
   this.$container.find("#selectedBookEditBtn").addClass("show")
   this.$container.find("#selectedBookSaveBtn").removeClass("show")
   this.$container.find("#selectedBookSaveBtn").addClass("hide")
+  this.$container.modal('hide')
 };
 
 

@@ -37,7 +37,17 @@ var Book = function(args){
   this.publishDate = new Date(String(args.publishDate)).getUTCFullYear();
   this.haveRead = (args.haveRead === "true" || args.haveRead === true) ? true : false || false;
   this.coverImage = args.coverImage || "css/assets/itsatrap.jpg";
+  this._id = args._id;
+  this.__v = args.__v;
 }
+
+// Book.prototype.editMyBook = function(title,author,numberOfPages){
+//   this.title = title;
+//   this.author = author;
+//   this.numberOfPages = numberOfPages;
+//   // console.log(this);
+//   return
+// }
 
 Library.prototype.checkBook = function(book){
   this.handleEventTrigger('objUpdate')
@@ -52,7 +62,23 @@ Library.prototype.checkBook = function(book){
   return true;
 }
 
+
+Library.prototype.editBookByMongoId = function (id,book) {
+  $.ajax({
+      url: window.libraryURL + id,
+      dataType: 'text',
+      data: book,
+      method: 'PUT',
+      success: (data)=>{
+        console.log("AJAX PUT SUCCESS");
+        this.updateBookShelf()
+      }
+      })
+};
+
+
 Library.prototype.editBook = function (title,args) {
+  console.log('inside edit book function');
   for (var i = 0; i < window.bookShelf.length; i++) {
     if(window.bookShelf[i].title === title){
        window.bookShelf[i].title = args.title;
@@ -61,7 +87,9 @@ Library.prototype.editBook = function (title,args) {
        window.bookShelf[i].publishDate = args.publishDate;
        window.bookShelf[i].haveRead = args.haveRead;
        window.bookShelf[i].coverImage = args.coverImage;
-       this.setStorage()
+       // console.log(window.bookShelf[i]);
+       this.editBookByMongoId(window.bookShelf[i]._id,window.bookShelf[i])
+       //this.setStorage()
     }
   }
   this.handleEventTrigger('objUpdate');
@@ -76,18 +104,44 @@ Library.prototype.addBook = function(book){
     }
   }
   console.log("added " + book.title + " to book shelf");
-  window.bookShelf.push(book)
-  this.handleEventTrigger('objUpdate')
-  this.setStorage();
+  //window.bookShelf.push(book)
+  $.ajax({
+      url: window.libraryURL, //http://127.0.0.1:3002/Library/
+      dataType: 'json',
+      data:book,
+      method: 'POST',
+      success: (data)=>{
+        console.log(data);
+        console.log("AJAX POST SUCCESS");
+        this.updateBookShelf()
+      }
+      })
+
+  // console.log("AJAX POST SHOULD BE OVER");
+
   return true;
 }
+
+
+Library.prototype.removeBookByMongoId = function (id) {
+  $.ajax({
+      url: window.libraryURL + id.toString(),
+      dataType: 'text',
+      method: 'DELETE',
+      success: (data) => {
+        console.log(data);
+        this.updateBookShelf();
+        }
+      })
+};
 
 Library.prototype.removeBookByTitle = function(title){
   for (var i = 0; i < window.bookShelf.length; i++) {
     if(window.bookShelf[i].title.toLowerCase() === title.toLowerCase()){
       console.log("removed " + window.bookShelf[i].title + " from book shelf");
+      this.removeBookByMongoId(window.bookShelf[i]._id)
       window.bookShelf.splice(i,1)
-      this.handleEventTrigger('objUpdate')
+      //this.handleEventTrigger('tableUpdate',window.bookShelf)
       this.setStorage();
       return true;
     }
@@ -95,24 +149,37 @@ Library.prototype.removeBookByTitle = function(title){
   return false;
 }
 
-Library.prototype.removeBookByAuthor = function(author){
+Library.prototype.removeBookByAuthor =  function(author){
   var removeCounter = 0;
   for (var i = 0; i < window.bookShelf.length; i++) {
     if(window.bookShelf[i].author.toLowerCase() === author.toLowerCase()){
       console.log("removed " + window.bookShelf[i].title + " from book shelf");
+      this.removeBookByMongoId(window.bookShelf[i]._id)
       window.bookShelf.splice(i,1)
       i--;
       removeCounter++;
     }
   }
   if(removeCounter > 0){
-    this.handleEventTrigger('objUpdate');
     this.setStorage();
     return true;
   }else{
     return false;
   }
 }
+
+Library.prototype.getRandomMongoBook = function () {
+  var randomBook = $.ajax({
+    url:window.libraryURL + "randomBook",
+    dataType: 'json',
+    method: 'GET',
+    success: (data)=>{
+      //console.log(data[0]);
+      return data[0]
+    }
+  })
+  return randomBook
+};
 
 Library.prototype.getRandomBook = function(){
   if(window.bookShelf.length === 0){
@@ -122,6 +189,18 @@ Library.prototype.getRandomBook = function(){
     return window.bookShelf[Math.floor(Math.random() * Math.floor(window.bookShelf.length))]
   }
 }
+
+Library.prototype.getBookById = function (id) {
+  var myBook = $.ajax({
+    url: window.libraryURL + id,
+    dataType: 'json',
+    method:'GET',
+    success: (data) => {
+      return data
+    }
+  })
+  return myBook
+};
 
 Library.prototype.getSingleBookByTitle = function (title) {
   for (var i = 0; i < window.bookShelf.length; i++) {
@@ -198,7 +277,7 @@ Library.prototype.Search = function(searchParam){
   var arr = [];
   var searchResults = []
   var uniqueSearchResults = []
-  var regEx = /[=,]/g
+  var regEx = /[=|]/g
   var adjustedSearchParam = "";
   adjustedSearchParam = searchParam.replace(regEx,"+")
   arr = adjustedSearchParam.split("+")
@@ -267,6 +346,20 @@ Library.prototype.setStorage = function(){
   return console.log("STORAGE HAS BEEN SET")
 }
 
+Library.prototype.updateBookShelf = function () {
+  console.log("UPDATING BOOKSHELF");
+  $.ajax({
+      url: window.libraryURL,
+      dataType: 'json',
+      method: 'GET',
+      success: (data) => {
+        window.bookShelf = bookify(data)
+        // this.setStorage()
+        this.handleEventTrigger("tableUpdate",window.bookShelf)
+        }
+      })
+
+};
 
 // document.addEventListener("DOMContentLoaded", function() {
 //     window.myLibrary = new Library()

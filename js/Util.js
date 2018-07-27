@@ -1,4 +1,5 @@
 var bookShelf = [];
+var libraryURL = "http://127.0.0.1:3002/Library/";
 
 (function() {
   'use strict';
@@ -46,5 +47,19 @@ var getRidOfIdAndV = function(obj){
     tempArr.push(new Book(myObj))
   }
   console.log(tempArr);
+  return tempArr
+}
+
+
+var bookify = function(arr){
+  var tempArr = []
+  for (var i = 0; i < arr.length; i++) {
+    var myObj = new Object();
+    for (var key in arr[i]) {
+        myObj[key] = arr[i][key]
+    }
+    tempArr.push(new Book(myObj))
+  }
+  //console.log(tempArr);
   return tempArr
 }

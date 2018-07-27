@@ -1,13 +1,12 @@
 var ShowTableUI = function(){
   Library.call(this)
-  this.libraryURL = "http://127.0.0.1:3002/Library"
 };
 
 ShowTableUI.prototype = Object.create(Library.prototype);
 
 ShowTableUI.prototype.init = function(){
   //window.bookShelf = this.getStorage();
-  this._makeBookTable(window.bookShelf);
+  this._getBooksAndMakeBookTable();
   this._bindEvents();
   this._bindCustomListeners();
 
@@ -24,16 +23,21 @@ ShowTableUI.prototype._bindCustomListeners = function () {
 };
 
 ShowTableUI.prototype._getBooksAndMakeBookTable = function () {
+  // console.time('time1')
+  // console.time('time2')
   $.ajax({
-      url: this.libraryURL,
+      url: window.libraryURL,
       dataType: 'json',
       method: 'GET',
       success: (data) => {
-        window.bookShelf = getRidOfIdAndV(data)
-        this._makeBookTable(getRidOfIdAndV(data))
+        window.bookShelf = bookify(data)
+        this.setStorage()
+        this._makeBookTable(window.bookShelf)
+        // console.timeEnd('time2')
         }
       })
-      // data:
+    // console.timeEnd('time1')
+
 };
 
 
@@ -52,9 +56,14 @@ ShowTableUI.prototype._makeBookTable = function(books){
   $(thead).append(tr)
   if(books[0]){
     for (var key in books[0]) {
-      var th = document.createElement("th")
-      $(th).text(spacesToCamelCase(key))
-      tr.append(th)
+      // console.log(key);
+      if(key === "__v" || key === "_id"){
+        //DO NOTHING
+      }else{
+        var th = document.createElement("th")
+        $(th).text(spacesToCamelCase(key))
+        tr.append(th)
+      }
     }
   }else{
     return console.log("NO BOOKS NO TABLE");
@@ -69,7 +78,9 @@ ShowTableUI.prototype._makeBookTable = function(books){
       // console.log(key);
       var td = document.createElement("td")
       // console.log(book[key]);
-      if(book[key] === true){
+      if(key === "__v" || key === "_id"){
+        //DO NOTHING
+      }else if(book[key] === true){
         $(td).html("<i style='font-size:1.2em;color:green' class='icon-book'></i>")
         $(td).data(key,book[key])
         tr.append(td)
