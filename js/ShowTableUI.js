@@ -26,8 +26,8 @@ ShowTableUI.prototype._bindCustomListeners = function () {
 
 ShowTableUI.prototype.lisaFrankify = function () {
   $('body *').each(function(){
+    
       $(this).addClass('rainbow1');
-      $(this).addClass('rainbow2');
 });
 };
 
