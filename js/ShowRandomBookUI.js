@@ -23,7 +23,7 @@ ShowRandomBookUI.prototype._handleShowRandomBook = async function(){
   //----------------------------------
   //RANDOM BOOK USING MONGODB METHOD AGGREGATE
   var book = await this.getRandomMongoBook()
-  // book = new Book(book[0])
+  book = new Book(book[0])
 
   if(book === null){
     alert("There are no books in the bookshelf!")
