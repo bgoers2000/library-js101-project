@@ -6,9 +6,9 @@ var ShowAuthorsUI = function(container){
 ShowAuthorsUI.prototype = Object.create(Library.prototype);
 
 ShowAuthorsUI.prototype.init = function(){
-  if(window.localStorage.length){
-    window.bookShelf = this.getStorage();
-  }
+  // if(window.localStorage.length){
+  //   window.bookShelf = this.getStorage();
+  // }
   this._bindEvents();
   return;
 };

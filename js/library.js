@@ -36,9 +36,13 @@ var Book = function(args){
   this.numberOfPages = Number(args.numberOfPages);
   this.publishDate = new Date(String(args.publishDate)).getUTCFullYear();
   this.haveRead = (args.haveRead === "true" || args.haveRead === true) ? true : false || false;
-  this.coverImage = args.coverImage || "css/assets/itsatrap.jpg";
-  this._id = args._id;
-  this.__v = args.__v;
+  this.coverImage = args.coverImage
+  if (args._id) {
+    this._id = args._id;
+  }
+  if (args.__v) {
+    this.__v = args.__v;
+  }
 }
 
 // Book.prototype.editMyBook = function(title,author,numberOfPages){
@@ -92,34 +96,49 @@ Library.prototype.editBook = function (title,args) {
        //this.setStorage()
     }
   }
-  this.handleEventTrigger('objUpdate');
 };
 
 Library.prototype.addBook = function(book){
-  //console.log(book)
+  // console.log(book)
   for(var i = 0;i < window.bookShelf.length;i++){
     if(book.title.toLowerCase() === window.bookShelf[i].title.toLowerCase()){
       console.log("Sorry "+ book.title +" already exists in the bookshelf.");
-      return false;
+      return {bool:false};
     }
   }
-  console.log("added " + book.title + " to book shelf");
+  // console.log("added " + book.title + " to book shelf");
   //window.bookShelf.push(book)
-  $.ajax({
-      url: window.libraryURL, //http://127.0.0.1:3002/Library/
-      dataType: 'json',
-      data:book,
-      method: 'POST',
-      success: (data)=>{
-        console.log(data);
-        console.log("AJAX POST SUCCESS");
-        this.updateBookShelf()
-      }
-      })
-
   // console.log("AJAX POST SHOULD BE OVER");
 
-  return true;
+  return {bool:true,checkedBook:book};
+}
+
+Library.prototype.addBooks = function(books){
+  var counter = 0;
+  var tempShelf = [];
+
+  for (var i = 0; i < books.length; i++) {
+
+    if (this.addBook(books[i]).bool) {
+      tempShelf.push(this.addBook(books[i]).checkedBook)
+      counter++;
+    }
+  }
+  if (counter > 0) {
+    console.log(tempShelf);
+    $.ajax({
+        url: window.libraryURL, //http://127.0.0.1:3002/Library/
+        dataType: 'json',
+        data:{books: tempShelf},
+        method: 'POST',
+        success: (data)=>{
+          console.log(data);
+          console.log("AJAX POST SUCCESS");
+          this.updateBookShelf()
+        }
+        })
+  }
+  return counter;
 }
 
 
@@ -230,15 +249,6 @@ Library.prototype.getBooksByAuthor = function(authorName){
   return matchedArr;
 }
 
-Library.prototype.addBooks = function(books){
-  var counter = 0;
-  for (var i = 0; i < books.length; i++) {
-    if (this.addBook(books[i])) {
-      counter++;
-    }
-  }
-  return counter;
-}
 
 Library.prototype.getBooks = function(){
   var fullArr = [];

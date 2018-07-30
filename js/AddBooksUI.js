@@ -76,7 +76,8 @@ AddBooksUI.prototype._queueBook = function(){
       // console.log(entry.value + " -value");
     }
   })
-
+  console.log("my obj below");
+  console.log(myObj);
   myObj['coverImage'] = $("#addBookCoverImage").attr("src")
   //console.log(myObj);
   //console.log("Title: "+title+", Author: "+author+", Pages: "+pages+", pubDate: "+pubDate)

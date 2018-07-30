@@ -5,7 +5,6 @@ var ShowTableUI = function(){
 ShowTableUI.prototype = Object.create(Library.prototype);
 
 ShowTableUI.prototype.init = function(){
-  //window.bookShelf = this.getStorage();
   this._getBooksAndMakeBookTable();
   this._bindEvents();
   this._bindCustomListeners();
@@ -31,7 +30,6 @@ ShowTableUI.prototype._getBooksAndMakeBookTable = function () {
       method: 'GET',
       success: (data) => {
         window.bookShelf = bookify(data)
-        this.setStorage()
         this._makeBookTable(window.bookShelf)
         // console.timeEnd('time2')
         }

@@ -6,7 +6,6 @@ var RemoveBookUI = function(container){
 RemoveBookUI.prototype = Object.create(Library.prototype);
 
 RemoveBookUI.prototype.init = function(){
-  //window.bookShelf = this.getStorage();
   this._bindEvents();
   return;
 };

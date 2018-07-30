@@ -6,7 +6,6 @@ var ShowRandomBookUI = function(container){
 ShowRandomBookUI.prototype = Object.create(Library.prototype);
 
 ShowRandomBookUI.prototype.init = function(){
-  //window.bookShelf = this.getStorage();
   this._bindEvents();
 }
 

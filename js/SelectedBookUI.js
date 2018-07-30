@@ -8,7 +8,6 @@ var SelectedBookUI = function(container){
 SelectedBookUI.prototype = Object.create(Library.prototype);
 
 SelectedBookUI.prototype.init = function(){
-  //window.bookShelf = this.getStorage();
   this._bindEvents();
 }
 
