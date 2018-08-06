@@ -57,8 +57,8 @@ SelectedBookUI.prototype._selectRowToOpenModal = function (e) {
   // console.log(childArray);
   if(childArray){
     this._tempBookTitle = $(childArray[0]).data("title")
-    var book = this.getSingleBookByTitle(this._tempBookTitle)
-    // console.log(book);
+    var book = new Book(this.getSingleBookByTitle(this._tempBookTitle))
+    console.log(book);
     this.$container.find("#selectedBookCoverImage").attr("src",book.coverImage)
     this.$container.find("#selectedBookTitle").text(book.title)
     this.$container.find("#selectedBookAuthor").text(book.author)

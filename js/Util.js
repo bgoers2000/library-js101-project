@@ -1,5 +1,8 @@
 var bookShelf = [];
 var libraryURL = "http://127.0.0.1:3002/Library/";
+var currentPage = 1;
+var totalPages;
+var numResults;
 
 (function() {
   'use strict';

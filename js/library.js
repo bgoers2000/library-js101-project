@@ -33,7 +33,7 @@ Library.prototype.handleEventTrigger = function (sEvent,oData) {
 var Book = function(args){
   this.title = String(args.title);
   this.author = String(args.author);
-  this.numberOfPages = Number(args.numberOfPages);
+  this.numberOfPages = parseInt(args.numberOfPages);
   this.publishDate = new Date(String(args.publishDate)).getUTCFullYear();
   this.haveRead = (args.haveRead === "true" || args.haveRead === true) ? true : false || false;
   this.coverImage = args.coverImage
@@ -54,7 +54,6 @@ var Book = function(args){
 // }
 
 Library.prototype.checkBook = function(book){
-  this.handleEventTrigger('objUpdate')
   console.log(book);
   console.log(book.title+ " book title");
   for(var i = 0;i < window.bookShelf.length;i++){
@@ -116,9 +115,7 @@ Library.prototype.addBook = function(book){
 Library.prototype.addBooks = function(books){
   var counter = 0;
   var tempShelf = [];
-
   for (var i = 0; i < books.length; i++) {
-
     if (this.addBook(books[i]).bool) {
       tempShelf.push(this.addBook(books[i]).checkedBook)
       counter++;
@@ -291,22 +288,82 @@ Library.prototype.Search = function(searchParam){
   var adjustedSearchParam = "";
   adjustedSearchParam = searchParam.replace(regEx,"+")
   arr = adjustedSearchParam.split("+")
+  console.log(arr);
+  searchObj = new Object()
   for (var i = 0; i < arr.length; i++) {
     if(arr[i].trim() === "title"){
-      searchResults = searchResults.concat(this.getBookByTitle(arr[i+1].trim()))
+      if(searchObj.title){
+        searchObj.title.push(arr[i+1].trim())
+      }else{
+        searchObj['title'] = []
+        searchObj.title.push(arr[i+1].trim())
+      }
+      //searchResults = searchResults.concat(this.getBookByTitle(arr[i+1].trim()))
     }else if(arr[i].trim() === "author"){
-      searchResults = searchResults.concat(this.getBooksByAuthor(arr[i+1].trim()))
+      if(searchObj.author){
+        searchObj.author.push(arr[i+1].trim())
+      }
+      else{
+        searchObj['author'] = []
+        searchObj.author.push(arr[i+1].trim())
+      }
+      //searchResults = searchResults.concat(this.getBooksByAuthor(arr[i+1].trim()))
     }else if(arr[i].trim() === "numberOfPages"){
-      searchResults = searchResults.concat(this.getBookByPages(arr[i+1].trim()))
+      if (searchObj.numberOfPages) {
+        searchObj.numberOfPages.push(arr[i+1].trim())
+      }else{
+        searchObj['numberOfPages'] = []
+        searchObj.numberOfPages.push(arr[i+1].trim())
+      }
+      //searchResults = searchResults.concat(this.getBookByPages(arr[i+1].trim()))
     }else if(arr[i].trim() === "publishDate"){
-      searchResults = searchResults.concat(this.getBookByDate(arr[i+1].trim()))
+      if (searchObj.publishDate) {
+        searchObj.publishDate.push(arr[i+1].trim())
+      }else{
+        searchObj['publishDate'] = []
+        searchObj.publishDate.push(arr[i+1].trim())
+      }
+      //searchResults = searchResults.concat(this.getBookByDate(arr[i+1].trim()))
     }
     i++;
   }
+  console.log(searchObj);
+  this.searchRequest(searchObj)
   uniqueSearchResults = searchResults.filter(function(value,index,self){
   return self.indexOf(value) === index;
   })
   return uniqueSearchResults
+}
+
+Library.prototype.searchRequest = function(obj){
+  //search/:title/:author/:numberOfPages/:publishDate'
+  if (obj.title) {
+    var title = obj.title.join('|');
+  }
+  if (obj.author) {
+    var author = obj.author.join('|')
+  }
+  if (obj.numberOfPages) {
+    var numberOfPages = obj.numberOfPages.join('|')
+  }
+  if (obj.publishDate) {
+    var publishDate = obj.publishDate.join('|')
+  }
+
+  var stringRequest = `search/${title}/${author}/${numberOfPages}/${publishDate}`
+  console.log(stringRequest);
+  $.ajax({
+      url: window.libraryURL + stringRequest,
+      dataType: 'json',
+      method: 'GET',
+      success: (data) => {
+        console.log(data);
+        var searchResults = bookify(data)
+        console.log(searchResults);
+        this.handleEventTrigger("tableUpdate",searchResults)
+        }
+      })
+
 }
 
 Library.prototype.getBookByDate = function(year){
@@ -365,7 +422,7 @@ Library.prototype.updateBookShelf = function () {
       success: (data) => {
         window.bookShelf = bookify(data)
         // this.setStorage()
-        this.handleEventTrigger("tableUpdate",window.bookShelf)
+        this.handleEventTrigger("paginateUpdate")
         }
       })
 

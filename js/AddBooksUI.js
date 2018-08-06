@@ -57,13 +57,6 @@ AddBooksUI.prototype._resetForm = function(){
 };
 
 AddBooksUI.prototype._queueBook = function(){
-  // var title = $("#addBookTitleField").val()
-  // var author = $("#addBookAuthorField").val()
-  // var pages = $("#addBookPagesField").val()
-  // var haveRead = $("#addBookHaveReadField").val()
-  // var pubDate = new Date($("#addBookDateField").val()).getUTCFullYear()
-  // var coverImage = $("#addBookCoverField").val()
-
   var myObj = new Object()
   var serArr = this.$container.find("#addBookForm").serializeArray()
   //console.log(serArr);

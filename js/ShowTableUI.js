@@ -1,11 +1,17 @@
 var ShowTableUI = function(){
   Library.call(this)
+  this.page = []
+  window.currentPage = 1
+  window.numResults = 5;
+  window.totalPages;
 };
 
 ShowTableUI.prototype = Object.create(Library.prototype);
 
-ShowTableUI.prototype.init = function(){
-  this._getBooksAndMakeBookTable();
+ShowTableUI.prototype.init = async function(){
+  window.bookShelf = await this._getBookShelf();
+  this._getPaginatedTable(window.currentPage,window.numResults)
+  this._calcTotalPages()
   this._bindEvents();
   this._bindCustomListeners();
 
@@ -13,29 +19,88 @@ ShowTableUI.prototype.init = function(){
 
 ShowTableUI.prototype._bindEvents = function(){
   //$("#showTableBtn").on('click',$.proxy(this._makeBookTable,this,window.bookShelf))
-  $("#showTableBtn").on('click',$.proxy(this._getBooksAndMakeBookTable,this))
+  $("#increasePageBtn").on('click',$.proxy(this._handleNextPage,this))
+  $("#decreasePageBtn").on('click',$.proxy(this._handlePreviousPage,this))
 }
 
 ShowTableUI.prototype._bindCustomListeners = function () {
   $(document).on('objUpdate', $.proxy(this._makeBookTable, this,window.bookShelf));
   $(document).on('tableUpdate',$.proxy(this._updateTable,this))
+  $(document).on('paginateUpdate',$.proxy(this._paginateUpdate,this))
 };
 
-ShowTableUI.prototype._getBooksAndMakeBookTable = function () {
+
+
+
+
+
+
+ShowTableUI.prototype._calcTotalPages = function () {
+  window.totalPages = Math.ceil(window.bookShelf.length/window.numResults)
+  $("#showPaginationStatus").text(window.currentPage + ' / ' + window.totalPages)
+};
+
+ShowTableUI.prototype._paginateUpdate = function () {
+  this._calcTotalPages()
+  if(window.currentPage > window.totalPages){
+    this._handlePreviousPage()
+  }else{
+    this._getPaginatedTable(window.currentPage,window.numResults)
+  }
+};
+
+ShowTableUI.prototype._getPaginatedTable = function (page,numberOfResults) {
+  $.ajax({
+      url: window.libraryURL + 'paginate/' + page + '/' + numberOfResults,
+      dataType: 'json',
+      method: 'GET',
+      success: (data) => {
+        //console.log(data)
+        this.page = bookify(data)
+        this._makeBookTable(this.page)
+        // console.timeEnd('time2')
+        }
+      })
+};
+
+ShowTableUI.prototype._handleNextPage = function () {
+  if(window.currentPage !== window.totalPages){
+    window.currentPage++;
+    //console.log(this.currentPage);
+    this._getPaginatedTable(window.currentPage,window.numResults)
+    $("#showPaginationStatus").text(window.currentPage + ' / ' + window.totalPages)
+  }else{
+
+  }
+};
+
+ShowTableUI.prototype._handlePreviousPage = function () {
+  if(window.currentPage === 1){
+
+  }else{
+    window.currentPage--;
+    //console.log(this.currentPage);
+    this._getPaginatedTable(window.currentPage,window.numResults)
+    $("#showPaginationStatus").text(window.currentPage + ' / ' + window.totalPages)
+  }
+};
+
+ShowTableUI.prototype._getBookShelf = async function () {
   // console.time('time1')
   // console.time('time2')
-  $.ajax({
+  window.bookShelf = await $.ajax({
       url: window.libraryURL,
       dataType: 'json',
       method: 'GET',
       success: (data) => {
-        window.bookShelf = bookify(data)
-        this._makeBookTable(window.bookShelf)
+         window.bookShelf = bookify(data)
+         return window.bookShelf
+        //this._makeBookTable(window.bookShelf)
         // console.timeEnd('time2')
         }
       })
     // console.timeEnd('time1')
-
+    return window.bookShelf
 };
 
 
