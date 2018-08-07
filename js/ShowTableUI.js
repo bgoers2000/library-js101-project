@@ -1,25 +1,108 @@
 var ShowTableUI = function(){
   Library.call(this)
+  this.page = []
+  window.currentPage = 1
+  window.numResults = 5;
+  window.totalPages;
 };
 
 ShowTableUI.prototype = Object.create(Library.prototype);
 
-ShowTableUI.prototype.init = function(){
-  //window.bookShelf = this.getStorage();
-  this._makeBookTable(window.bookShelf);
+ShowTableUI.prototype.init = async function(){
+  window.bookShelf = await this._getBookShelf();
+  this._getPaginatedTable(window.currentPage,window.numResults)
+  this._calcTotalPages()
   this._bindEvents();
   this._bindCustomListeners();
 
 }
 
 ShowTableUI.prototype._bindEvents = function(){
-  $("#showTableBtn").on('click',$.proxy(this._makeBookTable,this,window.bookShelf))
+  //$("#showTableBtn").on('click',$.proxy(this._makeBookTable,this,window.bookShelf))
+  $("#increasePageBtn").on('click',$.proxy(this._handleNextPage,this))
+  $("#decreasePageBtn").on('click',$.proxy(this._handlePreviousPage,this))
 }
 
 ShowTableUI.prototype._bindCustomListeners = function () {
   $(document).on('objUpdate', $.proxy(this._makeBookTable, this,window.bookShelf));
   $(document).on('tableUpdate',$.proxy(this._updateTable,this))
+  $(document).on('paginateUpdate',$.proxy(this._paginateUpdate,this))
 };
+
+
+
+
+
+
+
+ShowTableUI.prototype._calcTotalPages = function () {
+  window.totalPages = Math.ceil(window.bookShelf.length/window.numResults)
+  $("#showPaginationStatus").text(window.currentPage + ' / ' + window.totalPages)
+};
+
+ShowTableUI.prototype._paginateUpdate = function () {
+  this._calcTotalPages()
+  if(window.currentPage > window.totalPages){
+    this._handlePreviousPage()
+  }else{
+    this._getPaginatedTable(window.currentPage,window.numResults)
+  }
+};
+
+ShowTableUI.prototype._getPaginatedTable = function (page,numberOfResults) {
+  $.ajax({
+      url: window.libraryURL + 'paginate/' + page + '/' + numberOfResults,
+      dataType: 'json',
+      method: 'GET',
+      success: (data) => {
+        //console.log(data)
+        this.page = bookify(data)
+        this._makeBookTable(this.page)
+        // console.timeEnd('time2')
+        }
+      })
+};
+
+ShowTableUI.prototype._handleNextPage = function () {
+  if(window.currentPage !== window.totalPages){
+    window.currentPage++;
+    //console.log(this.currentPage);
+    this._getPaginatedTable(window.currentPage,window.numResults)
+    $("#showPaginationStatus").text(window.currentPage + ' / ' + window.totalPages)
+  }else{
+
+  }
+};
+
+ShowTableUI.prototype._handlePreviousPage = function () {
+  if(window.currentPage === 1){
+
+  }else{
+    window.currentPage--;
+    //console.log(this.currentPage);
+    this._getPaginatedTable(window.currentPage,window.numResults)
+    $("#showPaginationStatus").text(window.currentPage + ' / ' + window.totalPages)
+  }
+};
+
+ShowTableUI.prototype._getBookShelf = async function () {
+  // console.time('time1')
+  // console.time('time2')
+  window.bookShelf = await $.ajax({
+      url: window.libraryURL,
+      dataType: 'json',
+      method: 'GET',
+      success: (data) => {
+         window.bookShelf = bookify(data)
+         return window.bookShelf
+        //this._makeBookTable(window.bookShelf)
+        // console.timeEnd('time2')
+        }
+      })
+    // console.timeEnd('time1')
+    return window.bookShelf
+};
+
 
 ShowTableUI.prototype._updateTable = function (e) {
   // console.log(e);
@@ -36,9 +119,14 @@ ShowTableUI.prototype._makeBookTable = function(books){
   $(thead).append(tr)
   if(books[0]){
     for (var key in books[0]) {
-      var th = document.createElement("th")
-      $(th).text(spacesToCamelCase(key))
-      tr.append(th)
+      // console.log(key);
+      if(key === "__v" || key === "_id"){
+        //DO NOTHING
+      }else{
+        var th = document.createElement("th")
+        $(th).text(spacesToCamelCase(key))
+        tr.append(th)
+      }
     }
   }else{
     return console.log("NO BOOKS NO TABLE");
@@ -50,18 +138,22 @@ ShowTableUI.prototype._makeBookTable = function(books){
     $(tr).addClass("library-rows table-rows")
     tbody.append(tr)
     for (var key in book) {
+      // console.log(key);
       var td = document.createElement("td")
       // console.log(book[key]);
-      if(book[key] === "true"){
+      if(key === "__v" || key === "_id"){
+        //DO NOTHING
+      }else if(book[key] === true){
         $(td).html("<i style='font-size:1.2em;color:green' class='icon-book'></i>")
         $(td).data(key,book[key])
         tr.append(td)
-      }else if(book[key] === "false"){
+      }else if(book[key] === false){
         $(td).html("<i style='font-size:1.2em;color:red' class='icon-book'></i>")
         $(td).data(key,book[key])
         tr.append(td)
     }else if(key === "coverImage"){
-      $(td).html("<img class='thumbnailImage' src='"+ book[key] +"' alt='book cover image'>")
+      var myCover = book[key].toString()
+      $(td).html("<img class='thumbnailImage' src='"+ myCover +"' alt='book cover image'>")
       $(td).data(key,book[key])
       tr.append(td)
     }else{

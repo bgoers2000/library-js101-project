@@ -57,16 +57,9 @@ AddBooksUI.prototype._resetForm = function(){
 };
 
 AddBooksUI.prototype._queueBook = function(){
-  // var title = $("#addBookTitleField").val()
-  // var author = $("#addBookAuthorField").val()
-  // var pages = $("#addBookPagesField").val()
-  // var haveRead = $("#addBookHaveReadField").val()
-  // var pubDate = new Date($("#addBookDateField").val()).getUTCFullYear()
-  // var coverImage = $("#addBookCoverField").val()
-
   var myObj = new Object()
   var serArr = this.$container.find("#addBookForm").serializeArray()
-  console.log(serArr);
+  //console.log(serArr);
   $.each(serArr,function(index, entry){
     if(entry.value){
       // console.log(entry.name + " +key");
@@ -76,7 +69,8 @@ AddBooksUI.prototype._queueBook = function(){
       // console.log(entry.value + " -value");
     }
   })
-
+  console.log("my obj below");
+  console.log(myObj);
   myObj['coverImage'] = $("#addBookCoverImage").attr("src")
   //console.log(myObj);
   //console.log("Title: "+title+", Author: "+author+", Pages: "+pages+", pubDate: "+pubDate)

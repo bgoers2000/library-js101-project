@@ -6,7 +6,6 @@ var ShowRandomBookUI = function(container){
 ShowRandomBookUI.prototype = Object.create(Library.prototype);
 
 ShowRandomBookUI.prototype.init = function(){
-  //window.bookShelf = this.getStorage();
   this._bindEvents();
 }
 
@@ -15,14 +14,21 @@ ShowRandomBookUI.prototype._bindEvents = function(){
 }
 
 
-ShowRandomBookUI.prototype._handleShowRandomBook = function(){
-  var book = this.getRandomBook();
-  //console.log(book)
+ShowRandomBookUI.prototype._handleShowRandomBook = async function(){
+  //RANDOM BOOK USING LIBRARY.JS RANDOM BOOK FUNCTION
+  // var id = this.getRandomBook()._id  //HELPER FOR VERSION USING A BOOK ID TO SELECT A DOCUMENT FROM MONGODB
+  // var book = await this.getBookById(id) //VERSION USING A BOOK ID TO SELECT A DOCUMENT FROM MONGODB
+  // book = new Book(book) //TURN VERSION USING A BOOK ID INTO A BOOK OBJECT
+  //----------------------------------
+  //RANDOM BOOK USING MONGODB METHOD AGGREGATE
+  var book = await this.getRandomMongoBook()
+  book = new Book(book[0])
+
   if(book === null){
     alert("There are no books in the bookshelf!")
     return;
   }else{
-    //TODO INSERT COVER IMAGE PART HERE
+
     this.$container.find("#randomBookCoverImage").attr("src",book.coverImage)
     this.$container.find("#randomBookTitle").text(book.title)
     this.$container.find("#randomBookAuthor").text(book.author)
@@ -38,6 +44,7 @@ ShowRandomBookUI.prototype._handleShowRandomBook = function(){
     this.$container.find("#randomBookGoogleLink").attr("href","https://www.google.com/search?q=" + book.title)
     this.$container.find("#randomBookAmazonLink").attr("href","https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=" + book.title)
     this.$container.modal('show');
+
   }
 
 }

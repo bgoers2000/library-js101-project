@@ -41,7 +41,7 @@ AdvancedSearchUI.prototype._getSearchResults = function () {
       searchStringArr.push(entry.name + "=" + entry.value)
     }
   })
-  var searchString = searchStringArr.join(",")
+  var searchString = searchStringArr.join("|")
   var searchResults = this.Search(searchString)
   this.handleEventTrigger("tableUpdate",searchResults)
   // this.$container.find("#advSearchSearchFields")

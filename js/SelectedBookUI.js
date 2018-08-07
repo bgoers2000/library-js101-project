@@ -8,7 +8,6 @@ var SelectedBookUI = function(container){
 SelectedBookUI.prototype = Object.create(Library.prototype);
 
 SelectedBookUI.prototype.init = function(){
-  //window.bookShelf = this.getStorage();
   this._bindEvents();
 }
 
@@ -29,7 +28,7 @@ SelectedBookUI.prototype._resetSelectedBookModal = function () {
   var inputStringAuthor = "<p id='selectedBookAuthor' class='card-text'>"+ book.author +"</p>"
   var inputStringPubDate = "<li id='selectedBookPubDate' class='list-group-item'>"+ book.publishDate +"</li>"
   var inputStringPages = "<li id='selectedBookPages' class='list-group-item'>"+ book.numberOfPages +"</li>"
-  if (book.haveRead === "true") {
+  if (book.haveRead === true) {
     var inputStringHaveRead = "<li id='selectedBookHaveRead' class='list-group-item'> Yes </li>"
   }else{
     var inputStringHaveRead = "<li id='selectedBookHaveRead' class='list-group-item'> NO </li>"
@@ -58,14 +57,14 @@ SelectedBookUI.prototype._selectRowToOpenModal = function (e) {
   // console.log(childArray);
   if(childArray){
     this._tempBookTitle = $(childArray[0]).data("title")
-    var book = this.getSingleBookByTitle(this._tempBookTitle)
-    // console.log(book);
+    var book = new Book(this.getSingleBookByTitle(this._tempBookTitle))
+    console.log(book);
     this.$container.find("#selectedBookCoverImage").attr("src",book.coverImage)
     this.$container.find("#selectedBookTitle").text(book.title)
     this.$container.find("#selectedBookAuthor").text(book.author)
     this.$container.find("#selectedBookPubDate").text("Publish Date: " + book.publishDate)
     this.$container.find("#selectedBookPages").text("Number of Pages: " + book.numberOfPages)
-    if (book.haveRead === "true") {
+    if (book.haveRead === true) {
       this.$container.find("#selectedBookHaveRead").text("Have Read?: Yes")
     }else{
       this.$container.find("#selectedBookHaveRead").text("Have Read?: No")
@@ -95,7 +94,7 @@ SelectedBookUI.prototype._editMode = function () {
   var inputStringAuthor = "<div id='selectedBookAuthor' class='input-group mb-3'><div class='input-group-prepend'><span class='input-group-text'>Author</span></div><input name='author' type='text' class='form-control' aria-label='Default' aria-describedby='inputGroup-sizing-default' value='" + book.author + "'></div>"
   var inputStringPubDate = "<div id='selectedBookPubDate' class='input-group mb-3'><div class='input-group-prepend'><span class='input-group-text'>Publish Date</span></div><input name='publishDate' type='number' class='form-control' aria-label='Default' aria-describedby='inputGroup-sizing-default' value='" + book.publishDate + "'></div>"
   var inputStringPages = "<div id='selectedBookPages' class='input-group mb-3'><div class='input-group-prepend'><span class='input-group-text'>Pages</span></div><input name='numberOfPages' type='number' class='form-control' aria-label='Default' aria-describedby='inputGroup-sizing-default' value='" + book.numberOfPages + "'></div>"
-  if(book.haveRead === "true"){
+  if(book.haveRead === true){
     var inputStringHaveRead = "<div id='selectedBookHaveRead' class='input-group mb-3'><div class='input-group-prepend'><label class='input-group-text' for='inputGroupSelect01'>Have read?</label></div><select name='haveRead' class='custom-select'><option selected value=true>Yes</option><option value=false>No</option></select></div>"
   }else{
     var inputStringHaveRead = "<div id='selectedBookHaveRead' class='input-group mb-3'><div class='input-group-prepend'><label class='input-group-text' for='inputGroupSelect01'>Have read?</label></div><select name='haveRead' class='custom-select'><option value=true>Yes</option><option selected value=false>No</option></select></div>"
@@ -134,7 +133,7 @@ SelectedBookUI.prototype._saveMode = function () {
   var inputStringAuthor = "<p id='selectedBookAuthor' class='card-text'>"+ book.author +"</p>"
   var inputStringPubDate = "<li id='selectedBookPubDate' class='list-group-item'>Publish Date: "+ book.publishDate +"</li>"
   var inputStringPages = "<li id='selectedBookPages' class='list-group-item'>Number of Pages: "+ book.numberOfPages +"</li>"
-  if(book.haveRead === "true"){
+  if(book.haveRead === true){
     var inputStringHaveRead = "<li id='selectedBookHaveRead' class='list-group-item'>Have Read?: Yes</li>"
   }else{
     var inputStringHaveRead = "<li id='selectedBookHaveRead' class='list-group-item'>Have Read?: No</li>"
@@ -151,6 +150,7 @@ SelectedBookUI.prototype._saveMode = function () {
   this.$container.find("#selectedBookEditBtn").addClass("show")
   this.$container.find("#selectedBookSaveBtn").removeClass("show")
   this.$container.find("#selectedBookSaveBtn").addClass("hide")
+  this.$container.modal('hide')
 };
 
 
