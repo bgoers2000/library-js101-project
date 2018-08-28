@@ -37,10 +37,10 @@ var Book = function(args){
   this.publishDate = new Date(String(args.publishDate)).getUTCFullYear();
   this.haveRead = (args.haveRead === "true" || args.haveRead === true) ? true : false || false;
   this.coverImage = args.coverImage
-  if (args._id) {
+  if (args._id) { //IF ID EXISTS SET IT - IF ID DOES NOT EXIST IGNORE CREATING A KEY VALUE PAIR FOR ID
     this._id = args._id;
   }
-  if (args.__v) {
+  if (args.__v) { 
     this.__v = args.__v;
   }
 }
